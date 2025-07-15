@@ -44,4 +44,25 @@ class CRUDTest {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value())
         assertThat(response.jsonPath().getList("", Product::class.java)).hasSize(1)
     }
+
+    @Test
+    fun update() {
+        create()
+
+        val response =
+            RestAssured
+                .given().log().all()
+                .body(
+                    Product(
+                        name = "Vanilla ice cream",
+                        price = 3.60,
+                        imageUrl = "https://laurenslatest.com/wp-content/uploads/2020/08/vanilla-ice-cream-5-copy-360x361.jpg",
+                    ),
+                )
+                .contentType(ContentType.JSON)
+                .`when`().put("/api/products/1")
+                .then().log().all().extract()
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value())
+    }
 }

@@ -5,6 +5,6 @@
 - [ ] configure API that services the following requests:
   - [x] add
   - [x] retrieve
-  - [ ] update
+  - [x] update
   - [ ] delete
 
