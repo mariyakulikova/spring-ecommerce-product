@@ -46,7 +46,7 @@ class CRUDTest {
     }
 
     @Test
-    fun update() {
+    fun update_success() {
         create()
 
         val response =
@@ -67,7 +67,26 @@ class CRUDTest {
     }
 
     @Test
-    fun delete() {
+    fun update_failure() {
+        val response =
+            RestAssured
+                .given().log().all()
+                .body(
+                    Product(
+                        name = "Vanilla ice cream",
+                        price = 3.60,
+                        imageUrl = "https://laurenslatest.com/wp-content/uploads/2020/08/vanilla-ice-cream-5-copy-360x361.jpg",
+                    ),
+                )
+                .contentType(ContentType.JSON)
+                .`when`().put("/api/products/1")
+                .then().log().all().extract()
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.NOT_FOUND.value())
+    }
+
+    @Test
+    fun delete_success() {
         create()
 
         val response =
@@ -77,5 +96,16 @@ class CRUDTest {
                 .then().log().all().extract()
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value())
+    }
+
+    @Test
+    fun delete_failure() {
+        val response =
+            RestAssured
+                .given().log().all()
+                .`when`().delete("/api/products/1")
+                .then().log().all().extract()
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.NOT_FOUND.value())
     }
 }

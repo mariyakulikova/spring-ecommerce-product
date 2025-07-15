@@ -2,9 +2,8 @@
 
 ## feature list
 
-- [ ] configure API that services the following requests:
+- [x] configure API that services the following requests:
   - [x] add
   - [x] retrieve
   - [x] update
   - [x] delete
-

@@ -3,6 +3,7 @@ package ecommerce
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -56,5 +57,11 @@ class ProductController {
         if (deletedProduct == null) throw RuntimeException()
 
         return ResponseEntity.noContent().build()
+    }
+
+    // Intercepts any thrown RuntimeException within ProductController
+    @ExceptionHandler(RuntimeException::class)
+    fun handle(e: RuntimeException): ResponseEntity<Unit> {
+        return ResponseEntity.notFound().build()
     }
 }
