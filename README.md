@@ -4,7 +4,7 @@
 
 - [ ] configure API that services the following requests:
   - [x] add
-  - [ ] retrieve
+  - [x] retrieve
   - [ ] update
   - [ ] delete
 

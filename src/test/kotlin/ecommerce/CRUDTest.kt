@@ -29,4 +29,19 @@ class CRUDTest {
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value())
     }
+
+    @Test
+    fun read() {
+        create()
+
+        val response =
+            RestAssured
+                .given().log().all()
+                .contentType(ContentType.JSON)
+                .`when`().get("/api/products")
+                .then().log().all().extract()
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value())
+        assertThat(response.jsonPath().getList("", Product::class.java)).hasSize(1)
+    }
 }
