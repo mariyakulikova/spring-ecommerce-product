@@ -65,4 +65,17 @@ class CRUDTest {
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value())
     }
+
+    @Test
+    fun delete() {
+        create()
+
+        val response =
+            RestAssured
+                .given().log().all()
+                .`when`().delete("/api/products/1")
+                .then().log().all().extract()
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value())
+    }
 }

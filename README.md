@@ -6,5 +6,5 @@
   - [x] add
   - [x] retrieve
   - [x] update
-  - [ ] delete
+  - [x] delete
 
