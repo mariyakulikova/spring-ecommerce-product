@@ -8,8 +8,10 @@
   - [x] update
   - [x] delete
 
-- [ ] UI representation of products
+- [x] UI representation of products
   - [x] retrieve
   - [x] add
   - [x] update
   - [x] delete
+
+- [x] database integration (instead of global properties)
