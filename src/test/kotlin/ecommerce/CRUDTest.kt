@@ -14,7 +14,6 @@ import org.springframework.test.annotation.DirtiesContext
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 class CRUDTest {
-
     private lateinit var productRepository: ProductRepository
 
     @Autowired
@@ -27,34 +26,35 @@ class CRUDTest {
         jdbcTemplate.execute("DROP TABLE products IF EXISTS")
         jdbcTemplate.execute(
             "CREATE TABLE products(" +
-                    "id BIGINT AUTO_INCREMENT, name VARCHAR(255) NOT NULL, price DOUBLE NOT NULL, image_url VARCHAR(512) NOT NULL)",
+                "id BIGINT AUTO_INCREMENT, name VARCHAR(255) NOT NULL, price DOUBLE NOT NULL, image_url VARCHAR(512) NOT NULL)",
         )
 
-        val products = listOf(
-            Product(
-                id = 1L,
-                name = "vanilla ice cream",
-                price = 1.99,
-                imageUrl = "https://laurenslatest.com/wp-content/uploads/2020/08/vanilla-ice-cream-5-copy-360x361.jpg"
-            ),
-            Product(
-                id = 2L,
-                name = "pistachio ice cream",
-                price = 2.49,
-                imageUrl = "https://greenhealthycooking.com/wp-content/uploads/2017/06/Pistachio-Ice-Cream-Photo.jpg"
-            ),
-            Product(
-                id = 3L,
-                name = "chocolate ice cream",
-                price = 1.49,
-                imageUrl = "https://www.cravethegood.com/wp-content/uploads/2021/04/sous-vide-chocolate-ice-cream-15.jpg"
+        val products =
+            listOf(
+                Product(
+                    id = 1L,
+                    name = "vanilla ice cream",
+                    price = 1.99,
+                    imageUrl = "https://laurenslatest.com/wp-content/uploads/2020/08/vanilla-ice-cream-5-copy-360x361.jpg",
+                ),
+                Product(
+                    id = 2L,
+                    name = "pistachio ice cream",
+                    price = 2.49,
+                    imageUrl = "https://greenhealthycooking.com/wp-content/uploads/2017/06/Pistachio-Ice-Cream-Photo.jpg",
+                ),
+                Product(
+                    id = 3L,
+                    name = "chocolate ice cream",
+                    price = 1.49,
+                    imageUrl = "https://www.cravethegood.com/wp-content/uploads/2021/04/sous-vide-chocolate-ice-cream-15.jpg",
+                ),
             )
-        )
 
         jdbcTemplate.batchUpdate(
             "INSERT INTO products(name, price, image_url) VALUES (?, ?, ?)",
             products,
-            products.size
+            products.size,
         ) { ps, product ->
             ps.setString(1, product.name)
             ps.setDouble(2, product.price)
@@ -103,7 +103,9 @@ class CRUDTest {
                     Product(
                         name = "lemon ice cream",
                         price = 3.60,
-                        imageUrl = "https://www.carnation.co.uk/sites/default/files/2020-05/Final%20Lemon%20Curd%20Ice%20Cream%20mobile.jpg",
+                        imageUrl =
+                            "https://www.carnation.co.uk/sites/default/files/2020" +
+                                "-05/Final%20Lemon%20Curd%20Ice%20Cream%20mobile.jpg",
                     ),
                 )
                 .contentType(ContentType.JSON)

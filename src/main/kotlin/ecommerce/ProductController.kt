@@ -14,7 +14,6 @@ import java.net.URI
 
 @Controller
 class ProductController(private val productRepository: ProductRepository) {
-
     @PostMapping("/api/products")
     fun createProduct(
         @RequestBody product: Product,
@@ -46,7 +45,7 @@ class ProductController(private val productRepository: ProductRepository) {
         @PathVariable id: Long,
     ): ResponseEntity<Void> {
         val deleted = productRepository.delete(id)
-        if (!deleted){
+        if (!deleted) {
             throw RuntimeException()
         }
         return ResponseEntity.noContent().build()
@@ -60,7 +59,7 @@ class ProductController(private val productRepository: ProductRepository) {
 }
 
 @Controller
-class ProductPageController (private val productRepository: ProductRepository) {
+class ProductPageController(private val productRepository: ProductRepository) {
     @GetMapping("/products")
     fun getProducts(model: Model): String {
         model.addAttribute("products", productRepository.getAll())
