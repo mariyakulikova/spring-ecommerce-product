@@ -9,3 +9,7 @@
   - [x] delete
 
 - [ ] UI representation of products
+  - [x] retrieve
+  - [x] add
+  - [ ] update
+  - [x] delete

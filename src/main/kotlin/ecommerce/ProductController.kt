@@ -29,7 +29,7 @@ import java.util.concurrent.atomic.AtomicLong
 //    .toMutableMap()
 
 val products: MutableMap<Long, Product> = HashMap()
-val index = AtomicLong(3)
+val index = AtomicLong(1)
 
 @Controller
 class ProductController {
@@ -90,4 +90,6 @@ class ProductPageController {
         model.addAttribute("products", products.values.toList())
         return "products"
     }
+
+
 }
