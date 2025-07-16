@@ -90,6 +90,4 @@ class ProductPageController {
         model.addAttribute("products", products.values.toList())
         return "products"
     }
-
-
 }

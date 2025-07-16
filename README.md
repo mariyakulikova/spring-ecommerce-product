@@ -11,5 +11,5 @@
 - [ ] UI representation of products
   - [x] retrieve
   - [x] add
-  - [ ] update
+  - [x] update
   - [x] delete
