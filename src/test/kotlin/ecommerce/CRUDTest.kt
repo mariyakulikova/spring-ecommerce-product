@@ -3,6 +3,7 @@ package ecommerce
 import io.restassured.RestAssured
 import io.restassured.http.ContentType
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.HttpStatus
@@ -11,6 +12,12 @@ import org.springframework.test.annotation.DirtiesContext
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 class CRUDTest {
+    @BeforeEach
+    fun setup() {
+        products.clear()
+        index.set(1)
+    }
+
     @Test
     fun create() {
         val response =

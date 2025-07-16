@@ -2,6 +2,7 @@ package ecommerce
 
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
+import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.GetMapping
@@ -12,10 +13,26 @@ import org.springframework.web.bind.annotation.RequestBody
 import java.net.URI
 import java.util.concurrent.atomic.AtomicLong
 
+// TODO: remove mock data for product list
+//val MOCK_PRODUCTS = listOf(
+//    Product(name = "melon ice cream", price = 2.33, imageUrl = "link-1.jpg"),
+//    Product(name = "lemon ice cream", price = 1.50, imageUrl = "link-2.jpg"),
+//    Product(name = "vanilla ice cream", price = 3.09, imageUrl = "link-3.jpg")
+//)
+//
+//val products: MutableMap<Long, Product> = MOCK_PRODUCTS
+//    .map { product ->
+//        val id = index.getAndIncrement()
+//        id to Product.toEntity(product, id)
+//    }
+//    .toMap()
+//    .toMutableMap()
+
+val products: MutableMap<Long, Product> = HashMap()
+val index = AtomicLong(3)
+
 @Controller
 class ProductController {
-    private val products: MutableMap<Long, Product> = HashMap()
-    private val index = AtomicLong(1)
 
     @PostMapping("/api/products")
     fun createProduct(
@@ -63,5 +80,14 @@ class ProductController {
     @ExceptionHandler(RuntimeException::class)
     fun handle(e: RuntimeException): ResponseEntity<Unit> {
         return ResponseEntity.notFound().build()
+    }
+}
+
+@Controller
+class ProductPageController {
+    @GetMapping("/products")
+    fun getProducts(model: Model): String {
+        model.addAttribute("products", products.values.toList())
+        return "products"
     }
 }
