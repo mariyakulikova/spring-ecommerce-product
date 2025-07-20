@@ -17,7 +17,7 @@ class ProductController(private val productRepository: ProductRepository) {
     @PostMapping("/api/products")
     fun createProduct(
         @RequestBody product: Product,
-    ): ResponseEntity<Void> {
+    ): ResponseEntity<Unit> {
         val id = productRepository.create(product)
         return ResponseEntity.created(URI.create("/api/products/$id")).build()
     }
@@ -32,7 +32,7 @@ class ProductController(private val productRepository: ProductRepository) {
     fun updateProduct(
         @RequestBody newProduct: Product,
         @PathVariable id: Long,
-    ): ResponseEntity<Void> {
+    ): ResponseEntity<Unit> {
         val updated = productRepository.update(id, newProduct)
         if (!updated) {
             throw RuntimeException("Product not found")
@@ -43,7 +43,7 @@ class ProductController(private val productRepository: ProductRepository) {
     @DeleteMapping("/api/products/{id}")
     fun deleteProduct(
         @PathVariable id: Long,
-    ): ResponseEntity<Void> {
+    ): ResponseEntity<Unit> {
         val deleted = productRepository.delete(id)
         if (!deleted) {
             throw RuntimeException()
