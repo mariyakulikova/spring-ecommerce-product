@@ -76,7 +76,7 @@ class SSRTest() {
     }
 
     @Test
-    fun `HTML page does not contain product name`() {
+    fun `HTML page should display only the existing products`() {
         val response =
             RestAssured
                 .get("/products")
