@@ -51,7 +51,6 @@ class ProductController(private val productRepository: ProductRepository) {
         return ResponseEntity.noContent().build()
     }
 
-    // Intercepts any thrown RuntimeException within ProductController
     @ExceptionHandler(RuntimeException::class)
     fun handle(e: RuntimeException): ResponseEntity<Unit> {
         return ResponseEntity.notFound().build()
