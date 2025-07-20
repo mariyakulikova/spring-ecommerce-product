@@ -18,6 +18,7 @@ class CRUDTest {
 
     @Autowired
     private lateinit var jdbcTemplate: JdbcTemplate
+    private var productsSize = 0
 
     @BeforeEach
     fun setUp() {
@@ -50,6 +51,8 @@ class CRUDTest {
                     imageUrl = "https://www.cravethegood.com/wp-content/uploads/2021/04/sous-vide-chocolate-ice-cream-15.jpg",
                 ),
             )
+
+        productsSize = products.size
 
         jdbcTemplate.batchUpdate(
             "INSERT INTO products(name, price, image_url) VALUES (?, ?, ?)",
@@ -91,7 +94,7 @@ class CRUDTest {
                 .then().log().all().extract()
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value())
-        assertThat(response.jsonPath().getList("", Product::class.java)).hasSize(3)
+        assertThat(response.jsonPath().getList("", Product::class.java)).hasSize(productsSize)
     }
 
     @Test
