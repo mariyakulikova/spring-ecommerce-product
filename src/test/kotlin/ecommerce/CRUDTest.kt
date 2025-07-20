@@ -27,7 +27,7 @@ class CRUDTest {
         jdbcTemplate.execute("DROP TABLE products IF EXISTS")
         jdbcTemplate.execute(
             "CREATE TABLE products(" +
-                "id BIGINT AUTO_INCREMENT, name VARCHAR(255) NOT NULL, price DOUBLE NOT NULL, image_url VARCHAR(512) NOT NULL)",
+                    "id BIGINT AUTO_INCREMENT, name VARCHAR(255) NOT NULL, price DOUBLE NOT NULL, image_url VARCHAR(512) NOT NULL)",
         )
 
         val products =
@@ -67,21 +67,19 @@ class CRUDTest {
 
     @Test
     fun create() {
-        val response =
-            RestAssured
-                .given().log().all()
-                .body(
-                    Product(
-                        name = "Orange ice cream",
-                        price = 2.80,
-                        imageUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRf8Fdb-33SCOszWX_UF-92pCwX4Rcam0uVCg&s",
-                    ),
-                )
-                .contentType(ContentType.JSON)
-                .`when`().post("/api/products")
-                .then().log().all().extract()
-
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value())
+        RestAssured
+            .given().log().all()
+            .body(
+                Product(
+                    name = "Orange ice cream",
+                    price = 2.80,
+                    imageUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRf8Fdb-33SCOszWX_UF-92pCwX4Rcam0uVCg&s",
+                ),
+            )
+            .contentType(ContentType.JSON)
+            .`when`().post("/api/products")
+            .then().log().all()
+            .assertThat().statusCode(HttpStatus.CREATED.value())
     }
 
     @Test
@@ -91,73 +89,66 @@ class CRUDTest {
                 .given().log().all()
                 .contentType(ContentType.JSON)
                 .`when`().get("/api/products")
-                .then().log().all().extract()
+                .then().log().all()
+                .assertThat().statusCode(HttpStatus.OK.value())
+                .extract()
 
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value())
         assertThat(response.jsonPath().getList("", Product::class.java)).hasSize(productsSize)
     }
 
     @Test
     fun update_success() {
-        val response =
-            RestAssured
-                .given().log().all()
-                .body(
-                    Product(
-                        name = "lemon ice cream",
-                        price = 3.60,
-                        imageUrl =
-                            "https://www.carnation.co.uk/sites/default/files/2020" +
+        RestAssured
+            .given().log().all()
+            .body(
+                Product(
+                    name = "lemon ice cream",
+                    price = 3.60,
+                    imageUrl =
+                        "https://www.carnation.co.uk/sites/default/files/2020" +
                                 "-05/Final%20Lemon%20Curd%20Ice%20Cream%20mobile.jpg",
-                    ),
-                )
-                .contentType(ContentType.JSON)
-                .`when`().put("/api/products/1")
-                .then().log().all().extract()
-
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value())
+                ),
+            )
+            .contentType(ContentType.JSON)
+            .`when`().put("/api/products/1")
+            .then().log().all()
+            .assertThat().statusCode(HttpStatus.OK.value())
     }
 
     @Test
     fun update_failure() {
-        val response =
-            RestAssured
-                .given().log().all()
-                .body(
-                    Product(
-                        name = "vanilla ice cream",
-                        price = 3.60,
-                        imageUrl = "https://laurenslatest.com/wp-content/uploads/2020/08/vanilla-ice-cream-5-copy-360x361.jpg",
-                    ),
-                )
-                .contentType(ContentType.JSON)
-                .`when`().put("/api/products/4")
-                .then().log().all().extract()
-
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.NOT_FOUND.value())
+        RestAssured
+            .given().log().all()
+            .body(
+                Product(
+                    name = "vanilla ice cream",
+                    price = 3.60,
+                    imageUrl = "https://laurenslatest.com/wp-content/uploads/2020/08/vanilla-ice-cream-5-copy-360x361.jpg",
+                ),
+            )
+            .contentType(ContentType.JSON)
+            .`when`().put("/api/products/4")
+            .then().log().all()
+            .assertThat().statusCode(HttpStatus.NOT_FOUND.value())
     }
 
     @Test
     fun delete_success() {
         create()
 
-        val response =
-            RestAssured
-                .given().log().all()
-                .`when`().delete("/api/products/1")
-                .then().log().all().extract()
-
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value())
+        RestAssured
+            .given().log().all()
+            .`when`().delete("/api/products/1")
+            .then().log().all()
+            .assertThat().statusCode(HttpStatus.NO_CONTENT.value())
     }
 
     @Test
     fun delete_failure() {
-        val response =
-            RestAssured
-                .given().log().all()
-                .`when`().delete("/api/products/4")
-                .then().log().all().extract()
-
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.NOT_FOUND.value())
+        RestAssured
+            .given().log().all()
+            .`when`().delete("/api/products/4")
+            .then().log().all()
+            .assertThat().statusCode(HttpStatus.NOT_FOUND.value())
     }
 }
