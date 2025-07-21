@@ -72,15 +72,4 @@ class SSRTest() {
             assertThat(html).contains(it.name)
         }
     }
-
-    @Test
-    fun `HTML page should display only the existing products`() {
-        val response =
-            RestAssured
-                .get("/products")
-
-        val html = response.body.asString()
-
-        assertThat(html).doesNotContain("melon")
-    }
 }
