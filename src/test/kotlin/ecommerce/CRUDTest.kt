@@ -9,9 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.HttpStatus
 import org.springframework.jdbc.core.JdbcTemplate
-import org.springframework.test.annotation.DirtiesContext
 
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 class CRUDTest {
     private lateinit var productRepository: ProductRepository
@@ -27,7 +25,7 @@ class CRUDTest {
         jdbcTemplate.execute("DROP TABLE products IF EXISTS")
         jdbcTemplate.execute(
             "CREATE TABLE products(" +
-                    "id BIGINT AUTO_INCREMENT, name VARCHAR(255) NOT NULL, price DOUBLE NOT NULL, image_url VARCHAR(512) NOT NULL)",
+                "id BIGINT AUTO_INCREMENT, name VARCHAR(255) NOT NULL, price DOUBLE NOT NULL, image_url VARCHAR(512) NOT NULL)",
         )
 
         val products =
@@ -106,7 +104,7 @@ class CRUDTest {
                     price = 3.60,
                     imageUrl =
                         "https://www.carnation.co.uk/sites/default/files/2020" +
-                                "-05/Final%20Lemon%20Curd%20Ice%20Cream%20mobile.jpg",
+                            "-05/Final%20Lemon%20Curd%20Ice%20Cream%20mobile.jpg",
                 ),
             )
             .contentType(ContentType.JSON)
