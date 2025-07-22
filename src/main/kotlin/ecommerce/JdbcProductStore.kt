@@ -5,7 +5,7 @@ import org.springframework.jdbc.core.RowMapper
 import org.springframework.stereotype.Repository
 
 @Repository
-class JdbcProductStore(private val jdbc: JdbcTemplate): ProductStore {
+class JdbcProductStore(private val jdbc: JdbcTemplate) : ProductStore {
     private val rowMapper =
         RowMapper<Product> { rs, _ ->
             Product(
