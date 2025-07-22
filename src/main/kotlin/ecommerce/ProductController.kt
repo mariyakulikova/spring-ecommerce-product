@@ -16,18 +16,18 @@ import java.net.URI
 
 @RestController
 @RequestMapping("api/products")
-class ProductController(private val productRepository: ProductRepository) {
+class ProductController(private val jdbcProductStore: ProductStore) {
     @PostMapping
     fun createProduct(
         @RequestBody product: Product,
     ): ResponseEntity<Unit> {
-        val id = productRepository.create(product)
+        val id = jdbcProductStore.create(product)
         return ResponseEntity.created(URI.create("/api/products/$id")).build()
     }
 
     @GetMapping
     fun readProducts(): ResponseEntity<List<Product>> {
-        val products = productRepository.getAll()
+        val products = jdbcProductStore.getAll()
         return ResponseEntity.ok(products)
     }
 
@@ -36,7 +36,7 @@ class ProductController(private val productRepository: ProductRepository) {
         @RequestBody newProduct: Product,
         @PathVariable id: Long,
     ): ResponseEntity<Unit> {
-        val updated = productRepository.update(id, newProduct)
+        val updated = jdbcProductStore.update(id, newProduct)
         if (!updated) {
             throw RuntimeException("Product not found")
         }
@@ -47,7 +47,7 @@ class ProductController(private val productRepository: ProductRepository) {
     fun deleteProduct(
         @PathVariable id: Long,
     ): ResponseEntity<Unit> {
-        val deleted = productRepository.delete(id)
+        val deleted = jdbcProductStore.delete(id)
         if (!deleted) {
             throw RuntimeException()
         }
@@ -61,10 +61,10 @@ class ProductController(private val productRepository: ProductRepository) {
 }
 
 @Controller
-class ProductPageController(private val productRepository: ProductRepository) {
+class ProductPageController(private val jdbcProductStore: JdbcProductStore) {
     @GetMapping("/products")
     fun getProducts(model: Model): String {
-        model.addAttribute("products", productRepository.getAll())
+        model.addAttribute("products", jdbcProductStore.getAll())
         return "products"
     }
 }

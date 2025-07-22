@@ -9,14 +9,14 @@ import org.springframework.jdbc.core.JdbcTemplate
 
 @JdbcTest
 class DBTest {
-    private lateinit var productRepository: ProductRepository
+    private lateinit var jdbcProductStore: ProductStore
 
     @Autowired
     private lateinit var jdbcTemplate: JdbcTemplate
 
     @BeforeEach
     fun setUp() {
-        productRepository = ProductRepository(jdbcTemplate)
+        jdbcProductStore = JdbcProductStore(jdbcTemplate)
 
         jdbcTemplate.execute("DROP TABLE products IF EXISTS")
         jdbcTemplate.execute(
@@ -59,7 +59,7 @@ class DBTest {
 
     @Test
     fun getAll() {
-        val products = productRepository.getAll()
+        val products = jdbcProductStore.getAll()
         assertThat(products.size).isEqualTo(3)
     }
 
@@ -67,9 +67,9 @@ class DBTest {
     fun create() {
         val product =
             Product(name = "Carotte ice cream", price = 1.00, imageUrl = "https://farm8.staticflickr.com/7116/7618319284_7a441773e2_z.jpg")
-        productRepository.create(product)
+        jdbcProductStore.create(product)
 
-        val products = productRepository.getAll()
+        val products = jdbcProductStore.getAll()
 
         assertThat(products.any { it.name == "Carotte ice cream" }).isTrue()
     }
@@ -78,9 +78,9 @@ class DBTest {
     fun update() {
         val product =
             Product(name = "Carotte ice cream", price = 1.00, imageUrl = "https://farm8.staticflickr.com/7116/7618319284_7a441773e2_z.jpg")
-        productRepository.update(1, product)
+        jdbcProductStore.update(1, product)
 
-        val products = productRepository.getAll()
+        val products = jdbcProductStore.getAll()
 
         assertThat(products.first().name).isEqualTo(product.name)
         assertThat(products.any { it.name == "Vanilla ice cream" }).isFalse()
@@ -88,9 +88,9 @@ class DBTest {
 
     @Test
     fun delete() {
-        productRepository.delete(1)
+        jdbcProductStore.delete(1)
 
-        val products = productRepository.getAll()
+        val products = jdbcProductStore.getAll()
 
         assertThat(products.size).isEqualTo(2)
         assertThat(products.any { it.name == "Vanilla ice cream" }).isFalse()

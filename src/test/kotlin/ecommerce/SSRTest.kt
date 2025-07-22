@@ -10,7 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 class SSRTest() {
-    private lateinit var productRepository: ProductRepository
+    private lateinit var jdbcProductStore: ProductStore
 
     val products =
         listOf(
@@ -39,7 +39,7 @@ class SSRTest() {
 
     @BeforeEach
     fun setUp() {
-        productRepository = ProductRepository(jdbcTemplate)
+        jdbcProductStore = JdbcProductStore(jdbcTemplate)
 
         jdbcTemplate.execute("DROP TABLE products IF EXISTS")
         jdbcTemplate.execute(

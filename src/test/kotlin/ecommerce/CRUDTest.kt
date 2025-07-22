@@ -12,7 +12,7 @@ import org.springframework.jdbc.core.JdbcTemplate
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 class CRUDTest {
-    private lateinit var productRepository: ProductRepository
+    private lateinit var jdbcProductStore: ProductStore
 
     @Autowired
     private lateinit var jdbcTemplate: JdbcTemplate
@@ -20,7 +20,7 @@ class CRUDTest {
 
     @BeforeEach
     fun setUp() {
-        productRepository = ProductRepository(jdbcTemplate)
+        jdbcProductStore = JdbcProductStore(jdbcTemplate)
 
         jdbcTemplate.execute("DROP TABLE products IF EXISTS")
         jdbcTemplate.execute(
