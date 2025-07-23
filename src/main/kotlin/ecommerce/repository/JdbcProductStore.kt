@@ -1,5 +1,6 @@
-package ecommerce
+package ecommerce.repository
 
+import ecommerce.model.Product
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.jdbc.core.RowMapper
 import org.springframework.stereotype.Repository
@@ -42,5 +43,15 @@ class JdbcProductStore(private val jdbc: JdbcTemplate) : ProductStore {
 
     override fun delete(id: Long): Boolean {
         return jdbc.update("DELETE FROM products WHERE id = ?", id) > 0
+    }
+
+    override fun existsByName(product: Product): Boolean {
+        return (
+            jdbc.queryForObject(
+                "SELECT MAX(id) FROM products WHERE name = ?",
+                arrayOf(product.name),
+                Long::class.java,
+            ) ?: 0L
+        ) > 0
     }
 }

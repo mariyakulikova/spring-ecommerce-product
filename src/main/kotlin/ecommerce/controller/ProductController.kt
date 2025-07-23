@@ -1,8 +1,9 @@
-package ecommerce
+package ecommerce.controller
 
+import ecommerce.model.Product
+import ecommerce.repository.ProductStore
+import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
-import org.springframework.stereotype.Controller
-import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.GetMapping
@@ -19,7 +20,7 @@ import java.net.URI
 class ProductController(private val jdbcProductStore: ProductStore) {
     @PostMapping
     fun createProduct(
-        @RequestBody product: Product,
+        @Valid @RequestBody product: Product,
     ): ResponseEntity<Unit> {
         val id = jdbcProductStore.create(product)
         return ResponseEntity.created(URI.create("/api/products/$id")).build()
@@ -33,7 +34,7 @@ class ProductController(private val jdbcProductStore: ProductStore) {
 
     @PutMapping("/{id}")
     fun updateProduct(
-        @RequestBody newProduct: Product,
+        @Valid @RequestBody newProduct: Product,
         @PathVariable id: Long,
     ): ResponseEntity<Unit> {
         val updated = jdbcProductStore.update(id, newProduct)
@@ -57,14 +58,5 @@ class ProductController(private val jdbcProductStore: ProductStore) {
     @ExceptionHandler(RuntimeException::class)
     fun handle(e: RuntimeException): ResponseEntity<Unit> {
         return ResponseEntity.notFound().build()
-    }
-}
-
-@Controller
-class ProductPageController(private val jdbcProductStore: JdbcProductStore) {
-    @GetMapping("/products")
-    fun getProducts(model: Model): String {
-        model.addAttribute("products", jdbcProductStore.getAll())
-        return "products"
     }
 }

@@ -1,5 +1,8 @@
 package ecommerce
 
+import ecommerce.model.Product
+import ecommerce.repository.JdbcProductStore
+import ecommerce.repository.ProductStore
 import io.restassured.RestAssured
 import io.restassured.http.ContentType
 import org.assertj.core.api.Assertions.assertThat
@@ -69,9 +72,9 @@ class CRUDTest {
             .given().log().all()
             .body(
                 Product(
-                    name = "Orange ice cream",
+                    name = "Orange ice",
                     price = 2.80,
-                    imageUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRf8Fdb-33SCOszWX_UF-92pCwX4Rcam0uVCg&s",
+                    imageUrl = "https://image.jpg",
                 ),
             )
             .contentType(ContentType.JSON)
@@ -100,7 +103,7 @@ class CRUDTest {
             .given().log().all()
             .body(
                 Product(
-                    name = "lemon ice cream",
+                    name = "lemon ice",
                     price = 3.60,
                     imageUrl =
                         "https://www.carnation.co.uk/sites/default/files/2020" +
@@ -119,7 +122,7 @@ class CRUDTest {
             .given().log().all()
             .body(
                 Product(
-                    name = "vanilla ice cream",
+                    name = "vanilla ice",
                     price = 3.60,
                     imageUrl = "https://laurenslatest.com/wp-content/uploads/2020/08/vanilla-ice-cream-5-copy-360x361.jpg",
                 ),
@@ -132,8 +135,6 @@ class CRUDTest {
 
     @Test
     fun delete_success() {
-        create()
-
         RestAssured
             .given().log().all()
             .`when`().delete("/api/products/1")
@@ -148,5 +149,22 @@ class CRUDTest {
             .`when`().delete("/api/products/4")
             .then().log().all()
             .assertThat().statusCode(HttpStatus.NOT_FOUND.value())
+    }
+
+    @Test
+    fun create_failure() {
+        RestAssured
+            .given().log().all()
+            .body(
+                Product(
+                    name = "",
+                    price = 2.80,
+                    imageUrl = "https://image.png",
+                ),
+            )
+            .contentType(ContentType.JSON)
+            .`when`().post("/api/products")
+            .then().log().all()
+            .assertThat().statusCode(HttpStatus.BAD_REQUEST.value())
     }
 }

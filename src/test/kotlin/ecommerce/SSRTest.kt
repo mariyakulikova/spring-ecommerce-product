@@ -1,5 +1,6 @@
 package ecommerce
 
+import ecommerce.model.Product
 import io.restassured.RestAssured
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
@@ -10,8 +11,6 @@ import org.springframework.jdbc.core.JdbcTemplate
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 class SSRTest() {
-    private lateinit var jdbcProductStore: ProductStore
-
     val products =
         listOf(
             Product(
@@ -39,8 +38,6 @@ class SSRTest() {
 
     @BeforeEach
     fun setUp() {
-        jdbcProductStore = JdbcProductStore(jdbcTemplate)
-
         jdbcTemplate.execute("DROP TABLE products IF EXISTS")
         jdbcTemplate.execute(
             "CREATE TABLE products(" +

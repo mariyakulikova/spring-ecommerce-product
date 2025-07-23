@@ -1,5 +1,8 @@
 package ecommerce
 
+import ecommerce.model.Product
+import ecommerce.repository.JdbcProductStore
+import ecommerce.repository.ProductStore
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -66,7 +69,11 @@ class DBTest {
     @Test
     fun create() {
         val product =
-            Product(name = "Carotte ice cream", price = 1.00, imageUrl = "https://farm8.staticflickr.com/7116/7618319284_7a441773e2_z.jpg")
+            Product(
+                name = "Carotte ice cream",
+                price = 1.00,
+                imageUrl = "https://farm8.staticflickr.com/7116/7618319284_7a441773e2_z.jpg",
+            )
         jdbcProductStore.create(product)
 
         val products = jdbcProductStore.getAll()
@@ -77,7 +84,11 @@ class DBTest {
     @Test
     fun update() {
         val product =
-            Product(name = "Carotte ice cream", price = 1.00, imageUrl = "https://farm8.staticflickr.com/7116/7618319284_7a441773e2_z.jpg")
+            Product(
+                name = "Carotte ice cream",
+                price = 1.00,
+                imageUrl = "https://farm8.staticflickr.com/7116/7618319284_7a441773e2_z.jpg",
+            )
         jdbcProductStore.update(1, product)
 
         val products = jdbcProductStore.getAll()

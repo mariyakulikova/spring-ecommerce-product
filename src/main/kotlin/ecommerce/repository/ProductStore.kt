@@ -1,4 +1,6 @@
-package ecommerce
+package ecommerce.repository
+
+import ecommerce.model.Product
 
 interface ProductStore {
     fun getAll(): List<Product>
@@ -11,4 +13,6 @@ interface ProductStore {
     ): Boolean
 
     fun delete(id: Long): Boolean
+
+    fun existsByName(product: Product): Boolean
 }

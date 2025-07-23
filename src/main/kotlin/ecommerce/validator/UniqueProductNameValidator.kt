@@ -1,0 +1,19 @@
+package ecommerce.validator
+
+import ecommerce.model.Product
+import ecommerce.repository.ProductStore
+import jakarta.validation.ConstraintValidator
+import jakarta.validation.ConstraintValidatorContext
+import org.springframework.beans.factory.annotation.Autowired
+
+class UniqueProductNameValidator(
+    @Autowired
+    private val jdbcProductStore: ProductStore,
+) : ConstraintValidator<UniqueProductName, String> {
+    override fun isValid(
+        value: String,
+        context: ConstraintValidatorContext,
+    ): Boolean {
+        return !jdbcProductStore.existsByName(Product(name = value, price = 0.0, imageUrl = "image.png"))
+    }
+}
