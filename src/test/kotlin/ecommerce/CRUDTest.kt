@@ -35,19 +35,19 @@ class CRUDTest {
             listOf(
                 Product(
                     id = 1L,
-                    name = "vanilla ice cream",
+                    name = "vanilla",
                     price = 1.99,
                     imageUrl = "https://laurenslatest.com/wp-content/uploads/2020/08/vanilla-ice-cream-5-copy-360x361.jpg",
                 ),
                 Product(
                     id = 2L,
-                    name = "pistachio ice cream",
+                    name = "pistachio",
                     price = 2.49,
                     imageUrl = "https://greenhealthycooking.com/wp-content/uploads/2017/06/Pistachio-Ice-Cream-Photo.jpg",
                 ),
                 Product(
                     id = 3L,
-                    name = "chocolate ice cream",
+                    name = "chocolate",
                     price = 1.49,
                     imageUrl = "https://www.cravethegood.com/wp-content/uploads/2021/04/sous-vide-chocolate-ice-cream-15.jpg",
                 ),
@@ -72,7 +72,7 @@ class CRUDTest {
             .given().log().all()
             .body(
                 Product(
-                    name = "Orange ice",
+                    name = "Orange",
                     price = 2.80,
                     imageUrl = "https://image.jpg",
                 ),
@@ -103,7 +103,7 @@ class CRUDTest {
             .given().log().all()
             .body(
                 Product(
-                    name = "lemon ice",
+                    name = "lemon",
                     price = 3.60,
                     imageUrl =
                         "https://www.carnation.co.uk/sites/default/files/2020" +
@@ -122,7 +122,7 @@ class CRUDTest {
             .given().log().all()
             .body(
                 Product(
-                    name = "vanilla ice",
+                    name = "vvv",
                     price = 3.60,
                     imageUrl = "https://laurenslatest.com/wp-content/uploads/2020/08/vanilla-ice-cream-5-copy-360x361.jpg",
                 ),
