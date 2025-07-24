@@ -1,7 +1,7 @@
 package ecommerce
 
 import ecommerce.dto.Product
-import ecommerce.repository.ProductStore
+import ecommerce.repository.ProductRepository
 import ecommerce.utiles.Constants
 import jakarta.validation.Validator
 import org.assertj.core.api.Assertions.assertThat
@@ -13,7 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 class ProductUniqueNameTest {
     @Autowired
-    private lateinit var jdbcProductStore: ProductStore
+    private lateinit var jdbcProductStore: ProductRepository
 
     @Autowired
     private lateinit var validator: Validator

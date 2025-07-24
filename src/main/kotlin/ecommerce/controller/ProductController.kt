@@ -1,7 +1,7 @@
 package ecommerce.controller
 
 import ecommerce.dto.Product
-import ecommerce.repository.ProductStore
+import ecommerce.repository.ProductRepository
 import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -17,7 +17,7 @@ import java.net.URI
 
 @RestController
 @RequestMapping("api/products")
-class ProductController(private val jdbcProductStore: ProductStore) {
+class ProductController(private val jdbcProductStore: ProductRepository) {
     @PostMapping
     fun createProduct(
         @Valid @RequestBody product: Product,

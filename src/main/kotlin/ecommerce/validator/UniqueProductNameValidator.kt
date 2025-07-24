@@ -1,14 +1,14 @@
 package ecommerce.validator
 
 import ecommerce.dto.Product
-import ecommerce.repository.ProductStore
+import ecommerce.repository.ProductRepository
 import jakarta.validation.ConstraintValidator
 import jakarta.validation.ConstraintValidatorContext
 import org.springframework.beans.factory.annotation.Autowired
 
 class UniqueProductNameValidator(
     @Autowired
-    private val jdbcProductStore: ProductStore,
+    private val jdbcProductStore: ProductRepository,
 ) : ConstraintValidator<UniqueProductName, String> {
     override fun isValid(
         value: String,

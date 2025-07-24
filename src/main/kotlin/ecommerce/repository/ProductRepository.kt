@@ -2,7 +2,7 @@ package ecommerce.repository
 
 import ecommerce.dto.Product
 
-interface ProductStore {
+interface ProductRepository {
     fun getAll(): List<Product>
 
     fun create(product: Product): Long?

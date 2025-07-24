@@ -1,8 +1,8 @@
 package ecommerce
 
 import ecommerce.dto.Product
-import ecommerce.repository.JdbcProductStore
-import ecommerce.repository.ProductStore
+import ecommerce.repository.JdbcProductRepository
+import ecommerce.repository.ProductRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -12,14 +12,14 @@ import org.springframework.jdbc.core.JdbcTemplate
 
 @JdbcTest
 class JdbcProductStoreTest {
-    private lateinit var jdbcProductStore: ProductStore
+    private lateinit var jdbcProductStore: ProductRepository
 
     @Autowired
     private lateinit var jdbcTemplate: JdbcTemplate
 
     @BeforeEach
     fun setUp() {
-        jdbcProductStore = JdbcProductStore(jdbcTemplate)
+        jdbcProductStore = JdbcProductRepository(jdbcTemplate)
 
         jdbcTemplate.execute("DROP TABLE products IF EXISTS")
         jdbcTemplate.execute(

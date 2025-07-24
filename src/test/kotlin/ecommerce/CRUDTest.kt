@@ -1,8 +1,8 @@
 package ecommerce
 
 import ecommerce.dto.Product
-import ecommerce.repository.JdbcProductStore
-import ecommerce.repository.ProductStore
+import ecommerce.repository.JdbcProductRepository
+import ecommerce.repository.ProductRepository
 import io.restassured.RestAssured
 import io.restassured.http.ContentType
 import org.assertj.core.api.Assertions.assertThat
@@ -15,7 +15,7 @@ import org.springframework.jdbc.core.JdbcTemplate
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 class CRUDTest {
-    private lateinit var jdbcProductStore: ProductStore
+    private lateinit var jdbcProductStore: ProductRepository
 
     @Autowired
     private lateinit var jdbcTemplate: JdbcTemplate
@@ -23,7 +23,7 @@ class CRUDTest {
 
     @BeforeEach
     fun setUp() {
-        jdbcProductStore = JdbcProductStore(jdbcTemplate)
+        jdbcProductStore = JdbcProductRepository(jdbcTemplate)
 
         jdbcTemplate.execute("DROP TABLE products IF EXISTS")
         jdbcTemplate.execute(
