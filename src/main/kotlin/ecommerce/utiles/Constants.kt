@@ -7,4 +7,7 @@ object Constants {
     const val ERR_URL_REGEX = "Image URL must start with http:// or https://"
     const val ERR_NAME_REGEX = "Product name can contain letters, numbers, spaces, and ()[]+-&/_ only"
     const val ERR_NAME_SIZE = "Product name be no more then 15 characters"
+    const val ERR_EMAIL_FORMAT = "Invalid email format"
+    const val ERR_PASSWORD = "Password must not be blank"
+    const val ERR_EMAIL_BLANK = "Email must not be blank"
 }

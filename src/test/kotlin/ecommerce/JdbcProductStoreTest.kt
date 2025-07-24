@@ -11,7 +11,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest
 import org.springframework.jdbc.core.JdbcTemplate
 
 @JdbcTest
-class DBTest {
+class JdbcProductStoreTest {
     private lateinit var jdbcProductStore: ProductStore
 
     @Autowired
