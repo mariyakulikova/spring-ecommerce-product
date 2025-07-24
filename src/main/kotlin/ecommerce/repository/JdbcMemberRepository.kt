@@ -23,19 +23,19 @@ class JdbcMemberRepository(private val jdbcTemplate: JdbcTemplate) : MemberRepos
     }
 
     override fun findByEmail(email: String): Member? {
-        return jdbcTemplate.queryForObject(
+        return jdbcTemplate.query(
                 "SELECT * FROM members WHERE email = ?",
-                arrayOf(email),
-                rowMapper
-            )
+                rowMapper,
+                email,
+            ).firstOrNull()
     }
 
     override fun existsByEmail(email: String): Boolean {
-        val count = jdbcTemplate.queryForObject(
-            "SELECT COUNT(*) FROM members WHERE email = ?",
-            arrayOf(email),
-            Long::class.java
-        ) ?: 0
-        return count > 0
+        val row = jdbcTemplate.query(
+            "SELECT * FROM members WHERE email = ?",
+            { rs, _ -> rs.getLong("id") },
+            email,
+        )
+        return row.isNotEmpty()
     }
 }

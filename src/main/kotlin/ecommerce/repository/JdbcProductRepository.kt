@@ -46,12 +46,11 @@ class JdbcProductRepository(private val jdbc: JdbcTemplate) : ProductRepository 
     }
 
     override fun existsByName(product: Product): Boolean {
-        return (
-            jdbc.queryForObject(
-                "SELECT MAX(id) FROM products WHERE name = ?",
-                arrayOf(product.name),
-                Long::class.java,
-            ) ?: 0L
-        ) > 0
+        val rows = jdbc.query(
+            "SELECT id FROM products WHERE name = ?",
+            { rs, _ -> rs.getLong("id") },
+            product.name,
+        )
+        return rows.isNotEmpty()
     }
 }
