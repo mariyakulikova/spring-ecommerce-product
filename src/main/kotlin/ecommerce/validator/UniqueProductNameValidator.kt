@@ -14,6 +14,6 @@ class UniqueProductNameValidator(
         value: String,
         context: ConstraintValidatorContext,
     ): Boolean {
-        return !jdbcProductStore.existsByName(Product(name = value, price = 0.0, imageUrl = "image.png"))
+        return !jdbcProductStore.existsByName(Product(name = value, price = 0.0, imageUrl = "http://image.png"))
     }
 }
