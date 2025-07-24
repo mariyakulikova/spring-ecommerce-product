@@ -1,6 +1,6 @@
 package ecommerce.repository
 
-import ecommerce.model.Product
+import ecommerce.dto.Product
 
 interface ProductStore {
     fun getAll(): List<Product>

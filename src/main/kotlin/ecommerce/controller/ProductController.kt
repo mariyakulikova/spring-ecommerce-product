@@ -1,6 +1,6 @@
 package ecommerce.controller
 
-import ecommerce.model.Product
+import ecommerce.dto.Product
 import ecommerce.repository.ProductStore
 import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity

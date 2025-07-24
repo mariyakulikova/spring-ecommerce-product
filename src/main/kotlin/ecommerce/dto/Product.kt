@@ -1,4 +1,4 @@
-package ecommerce.model
+package ecommerce.dto
 
 import ecommerce.utiles.Constants
 import ecommerce.validator.UniqueProductName

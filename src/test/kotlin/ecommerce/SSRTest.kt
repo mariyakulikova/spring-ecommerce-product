@@ -1,6 +1,6 @@
 package ecommerce
 
-import ecommerce.model.Product
+import ecommerce.dto.Product
 import io.restassured.RestAssured
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach

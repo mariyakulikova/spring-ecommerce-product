@@ -1,4 +1,4 @@
-import ecommerce.model.Product
+import ecommerce.dto.Product
 import ecommerce.utiles.Constants
 import jakarta.validation.Validation
 import jakarta.validation.Validator

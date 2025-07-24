@@ -1,6 +1,6 @@
 package ecommerce.validator
 
-import ecommerce.model.Product
+import ecommerce.dto.Product
 import ecommerce.repository.ProductStore
 import jakarta.validation.ConstraintValidator
 import jakarta.validation.ConstraintValidatorContext

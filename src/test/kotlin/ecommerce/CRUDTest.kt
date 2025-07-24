@@ -1,6 +1,6 @@
 package ecommerce
 
-import ecommerce.model.Product
+import ecommerce.dto.Product
 import ecommerce.repository.JdbcProductStore
 import ecommerce.repository.ProductStore
 import io.restassured.RestAssured
