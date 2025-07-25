@@ -3,7 +3,9 @@ package ecommerce.repository
 import ecommerce.dto.Member
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.jdbc.core.RowMapper
+import org.springframework.stereotype.Repository
 
+@Repository
 class JdbcMemberRepository(private val jdbcTemplate: JdbcTemplate) : MemberRepository {
     private val rowMapper = RowMapper<Member> { rs, _ ->
         Member(
