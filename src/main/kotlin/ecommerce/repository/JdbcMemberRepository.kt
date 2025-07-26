@@ -1,6 +1,7 @@
 package ecommerce.repository
 
 import ecommerce.dto.Member
+import jakarta.validation.Valid
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.jdbc.core.RowMapper
 import org.springframework.stereotype.Repository

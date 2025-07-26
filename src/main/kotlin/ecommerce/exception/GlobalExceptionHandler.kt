@@ -2,11 +2,13 @@ package ecommerce.exception
 
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
+import org.springframework.web.bind.annotation.RestControllerAdvice
 import java.lang.IllegalArgumentException
 
-@ControllerAdvice
+@RestControllerAdvice
 class GlobalExceptionHandler {
     @ExceptionHandler(IllegalArgumentException::class)
     fun exceptionHandler(e: IllegalArgumentException): ResponseEntity<String> {
@@ -18,4 +20,9 @@ class GlobalExceptionHandler {
     fun handleDuplicateName(e: DuplicateProductNameException): ResponseEntity<String> {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(e.message)
     }
+
+//    @ExceptionHandler(MethodArgumentNotValidException::class)
+//    fun handleValidationException(ex: MethodArgumentNotValidException): ResponseEntity<String> {
+//        return ResponseEntity.status(HttpStatus.FORBIDDEN).build()
+//    }
 }

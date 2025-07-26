@@ -1,42 +1,53 @@
 package ecommerce
 
 import ecommerce.dto.Member
-import ecommerce.utiles.Constants
-import jakarta.validation.Validation
-import jakarta.validation.Validator
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
+import org.assertj.core.api.Assertions.assertThat
 
 class MemberTest {
-    private lateinit var validator: Validator
 
-    @BeforeEach
-    fun setUp() {
-        validator = Validation.buildDefaultValidatorFactory().validator
+    @Test
+    fun `should create member with valid email and password`() {
+        val member = Member(
+            email = "user@example.com",
+            password = "securePass123"
+        )
+
+        assertThat(member.email).isEqualTo("user@example.com")
+        assertThat(member.password).isEqualTo("securePass123")
     }
 
     @Test
-    fun `blank email should fail validation`() {
-        val product = Member(email = "", password = "1234")
-        val violations = validator.validate(product)
-
-        assertThat(violations).anyMatch { it.message.contains(Constants.ERR_EMAIL_BLANK) }
+    fun `should throw exception when email is blank`() {
+        val exception = assertThrows<IllegalArgumentException> {
+            Member(
+                email = "   ",
+                password = "1234"
+            )
+        }
+        assertThat(exception.message).isEqualTo("Email cannot be blank")
     }
 
     @Test
-    fun `email in worg format should fail validation`() {
-        val product = Member(email = "email", password = "1234")
-        val violations = validator.validate(product)
-
-        assertThat(violations).anyMatch { it.message.contains(Constants.ERR_EMAIL_FORMAT) }
+    fun `should throw exception when password is blank`() {
+        val exception = assertThrows<IllegalArgumentException> {
+            Member(
+                email = "user@example.com",
+                password = "  "
+            )
+        }
+        assertThat(exception.message).isEqualTo("Password cannot be blank")
     }
 
     @Test
-    fun `blank password should fail validation`() {
-        val product = Member(email = "user@email.com", password = "")
-        val violations = validator.validate(product)
-
-        assertThat(violations).anyMatch { it.message.contains(Constants.ERR_PASSWORD) }
+    fun `should throw exception when email format is invalid`() {
+        val exception = assertThrows<IllegalArgumentException> {
+            Member(
+                email = "user_at_example.com",
+                password = "1234"
+            )
+        }
+        assertThat(exception.message).isEqualTo("Invalid email format: user_at_example.com")
     }
 }

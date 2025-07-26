@@ -1,15 +1,19 @@
 package ecommerce.dto
 
-import ecommerce.utiles.Constants
-import jakarta.validation.constraints.Email
-import jakarta.validation.constraints.NotBlank
-
 data class Member(
     val id: Long? = null,
-    @field:Email(message = Constants.ERR_EMAIL_FORMAT)
-    @field:NotBlank(message = Constants.ERR_EMAIL_BLANK)
     val email: String,
-    @field:NotBlank(message = Constants.ERR_PASSWORD)
     val password: String,
     val role: String = "USER"
-)
+) {
+    init {
+        require(email.isNotBlank()) { "Email cannot be blank" }
+        require(password.isNotBlank()) { "Password cannot be blank" }
+        require(isValidEmail(email)) { "Invalid email format: $email" }
+    }
+
+    private fun isValidEmail(email: String): Boolean {
+        val emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$".toRegex()
+        return email.matches(emailRegex)
+    }
+}
