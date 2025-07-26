@@ -19,7 +19,7 @@ class ProductTest {
         val product = Product(name = "valid product name here", price = 5.0, imageUrl = "http://image.jpg")
         val violations = validator.validate(product)
 
-        assertThat(violations).anyMatch { it.message.contains(Constants.ERR_NAME_REGEX) }
+        assertThat(violations).anyMatch { it.message.contains(Constants.ERR_NAME_SIZE) }
     }
 
     @Test

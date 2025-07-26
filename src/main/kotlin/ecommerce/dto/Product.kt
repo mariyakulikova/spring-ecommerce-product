@@ -1,7 +1,6 @@
 package ecommerce.dto
 
 import ecommerce.utiles.Constants
-import ecommerce.validator.UniqueProductName
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Pattern
 import jakarta.validation.constraints.Positive
@@ -15,7 +14,6 @@ class Product(
         message = Constants.ERR_NAME_REGEX,
     )
     @field:Size(max = 15, message = Constants.ERR_NAME_SIZE)
-    @field:UniqueProductName(message = Constants.ERR_NAME_UNIQUE)
     var name: String,
     @field:Positive(message = Constants.ERR_PRICE_POSITIVE)
     var price: Double,
