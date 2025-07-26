@@ -4,6 +4,7 @@ import ecommerce.dto.Product
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.jdbc.core.RowMapper
 import org.springframework.stereotype.Repository
+import ecommerce.exception.NotFoundException
 
 @Repository
 class JdbcProductRepository(private val jdbc: JdbcTemplate) : ProductRepository {
@@ -34,15 +35,17 @@ class JdbcProductRepository(private val jdbc: JdbcTemplate) : ProductRepository 
     override fun update(
         id: Long,
         product: Product,
-    ): Boolean {
-        return jdbc.update(
+    ) {
+        jdbc.update(
             "UPDATE products SET name = ?, price = ?, image_url = ? WHERE id = ?",
             product.name, product.price, product.imageUrl, id,
-        ) > 0
+        ).takeIf { it > 0 } ?: throw NotFoundException("Product with id $id not found")
     }
 
-    override fun delete(id: Long): Boolean {
-        return jdbc.update("DELETE FROM products WHERE id = ?", id) > 0
+    override fun delete(id: Long) {
+        jdbc.update("DELETE FROM products WHERE id = ?", id)
+            .takeIf { it > 0 }
+            ?: throw NotFoundException("Product with id $id not found")
     }
 
     override fun existsByName(product: Product): Boolean {

@@ -10,9 +10,9 @@ interface ProductRepository {
     fun update(
         id: Long,
         product: Product,
-    ): Boolean
+    )
 
-    fun delete(id: Long): Boolean
+    fun delete(id: Long)
 
     fun existsByName(product: Product): Boolean
 }

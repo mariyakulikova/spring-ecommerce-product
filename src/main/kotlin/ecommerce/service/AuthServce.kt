@@ -11,10 +11,12 @@ import org.springframework.stereotype.Service
 @Service
 class AuthService(
     private val jwtTokenProvider: JwtTokenProvider,
-    private val jdbcMemberRepository: JdbcMemberRepository
+    private val jdbcMemberRepository: JdbcMemberRepository,
+    private val service: MemberService,
 ) {
     fun register(tokenRequest: TokenRequest): TokenResponse {
         val member = Member(email = tokenRequest.email, password = tokenRequest.password)
+        service.validateUniqueName(member)
         jdbcMemberRepository.create(member)
         return TokenResponse(jwtTokenProvider.createToken(member.email))
     }
