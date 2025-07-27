@@ -1,8 +1,8 @@
-package ecommerce
+package ecommerce.controller
 
 import ecommerce.dto.Product
 import io.restassured.RestAssured
-import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -10,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.jdbc.core.JdbcTemplate
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-class SSRTest() {
+class ProductPageController() {
     val products =
         listOf(
             Product(
@@ -65,7 +65,7 @@ class SSRTest() {
         val html = response.body.asString()
 
         products.forEach {
-            assertThat(html).contains(it.name)
+            Assertions.assertThat(html).contains(it.name)
         }
     }
 }

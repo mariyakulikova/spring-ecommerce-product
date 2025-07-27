@@ -1,7 +1,6 @@
-package ecommerce
+package ecommerce.dto
 
-import ecommerce.dto.Member
-import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
@@ -14,8 +13,8 @@ class MemberTest {
                 password = "securePass123",
             )
 
-        assertThat(member.email).isEqualTo("user@example.com")
-        assertThat(member.password).isEqualTo("securePass123")
+        Assertions.assertThat(member.email).isEqualTo("user@example.com")
+        Assertions.assertThat(member.password).isEqualTo("securePass123")
     }
 
     @Test
@@ -27,7 +26,7 @@ class MemberTest {
                     password = "1234",
                 )
             }
-        assertThat(exception.message).isEqualTo("Email cannot be blank")
+        Assertions.assertThat(exception.message).isEqualTo("Email cannot be blank")
     }
 
     @Test
@@ -39,7 +38,7 @@ class MemberTest {
                     password = "  ",
                 )
             }
-        assertThat(exception.message).isEqualTo("Password cannot be blank")
+        Assertions.assertThat(exception.message).isEqualTo("Password cannot be blank")
     }
 
     @Test
@@ -51,6 +50,6 @@ class MemberTest {
                     password = "1234",
                 )
             }
-        assertThat(exception.message).isEqualTo("Invalid email format: user_at_example.com")
+        Assertions.assertThat(exception.message).isEqualTo("Invalid email format: user_at_example.com")
     }
 }

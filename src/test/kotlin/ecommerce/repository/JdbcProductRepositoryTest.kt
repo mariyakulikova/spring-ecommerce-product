@@ -1,9 +1,7 @@
-package ecommerce
+package ecommerce.repository
 
 import ecommerce.dto.Product
-import ecommerce.repository.JdbcProductRepository
-import ecommerce.repository.ProductRepository
-import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -11,7 +9,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest
 import org.springframework.jdbc.core.JdbcTemplate
 
 @JdbcTest
-class JdbcProductStoreTest {
+class JdbcProductRepositoryTest {
     private lateinit var jdbcProductStore: ProductRepository
 
     @Autowired
@@ -64,7 +62,7 @@ class JdbcProductStoreTest {
     @Test
     fun getAll() {
         val products = jdbcProductStore.getAll()
-        assertThat(products.size).isEqualTo(3)
+        Assertions.assertThat(products.size).isEqualTo(3)
     }
 
     @Test
@@ -79,7 +77,7 @@ class JdbcProductStoreTest {
 
         val products = jdbcProductStore.getAll()
 
-        assertThat(products.any { it.name == "Carotte ice cream" }).isTrue()
+        Assertions.assertThat(products.any { it.name == "Carotte ice cream" }).isTrue()
     }
 
     @Test
@@ -94,8 +92,8 @@ class JdbcProductStoreTest {
 
         val products = jdbcProductStore.getAll()
 
-        assertThat(products.first().name).isEqualTo(product.name)
-        assertThat(products.any { it.name == "Vanilla ice cream" }).isFalse()
+        Assertions.assertThat(products.first().name).isEqualTo(product.name)
+        Assertions.assertThat(products.any { it.name == "Vanilla ice cream" }).isFalse()
     }
 
     @Test
@@ -104,7 +102,7 @@ class JdbcProductStoreTest {
 
         val products = jdbcProductStore.getAll()
 
-        assertThat(products.size).isEqualTo(2)
-        assertThat(products.any { it.name == "Vanilla ice cream" }).isFalse()
+        Assertions.assertThat(products.size).isEqualTo(2)
+        Assertions.assertThat(products.any { it.name == "Vanilla ice cream" }).isFalse()
     }
 }

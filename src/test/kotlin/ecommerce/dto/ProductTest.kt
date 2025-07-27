@@ -1,8 +1,9 @@
-import ecommerce.dto.Product
+package ecommerce.dto
+
 import ecommerce.utiles.Constants
 import jakarta.validation.Validation
 import jakarta.validation.Validator
-import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
@@ -19,7 +20,7 @@ class ProductTest {
         val product = Product(name = "valid product name here", price = 5.0, imageUrl = "http://image.jpg")
         val violations = validator.validate(product)
 
-        assertThat(violations).anyMatch { it.message.contains(Constants.ERR_NAME_SIZE) }
+        Assertions.assertThat(violations).anyMatch { it.message.contains(Constants.ERR_NAME_SIZE) }
     }
 
     @Test
@@ -27,7 +28,7 @@ class ProductTest {
         val product = Product(name = "#name", price = 5.0, imageUrl = "http://image.jpg")
         val violations = validator.validate(product)
 
-        assertThat(violations).anyMatch { it.message.contains(Constants.ERR_NAME_REGEX) }
+        Assertions.assertThat(violations).anyMatch { it.message.contains(Constants.ERR_NAME_REGEX) }
     }
 
     @Test
@@ -35,7 +36,7 @@ class ProductTest {
         val product = Product(name = "", price = 5.0, imageUrl = "http://image.jpg")
         val violations = validator.validate(product)
 
-        assertThat(violations).anyMatch { it.message.contains(Constants.ERR_NAME_NOT_BLANK) }
+        Assertions.assertThat(violations).anyMatch { it.message.contains(Constants.ERR_NAME_NOT_BLANK) }
     }
 
     @Test
@@ -43,7 +44,7 @@ class ProductTest {
         val product = Product(name = "short name", price = 0.0, imageUrl = "http://image.jpg")
         val violations = validator.validate(product)
 
-        assertThat(violations).anyMatch { it.message.contains(Constants.ERR_PRICE_POSITIVE) }
+        Assertions.assertThat(violations).anyMatch { it.message.contains(Constants.ERR_PRICE_POSITIVE) }
     }
 
     @Test
@@ -51,6 +52,6 @@ class ProductTest {
         val product = Product(name = "product name", price = 5.0, imageUrl = "image.jpg")
         val violations = validator.validate(product)
 
-        assertThat(violations).anyMatch { it.message.contains(Constants.ERR_URL_REGEX) }
+        Assertions.assertThat(violations).anyMatch { it.message.contains(Constants.ERR_URL_REGEX) }
     }
 }

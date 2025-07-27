@@ -1,8 +1,6 @@
-package ecommerce
+package ecommerce.repository
 
-import ecommerce.repository.CartRepository
-import ecommerce.repository.JdbcCartRepository
-import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -63,9 +61,9 @@ class JdbcCartRepositoryTest {
     fun `findByMemberId should return items for given member`() {
         val items = cartRepository.findByMemberId(memberId)
 
-        assertThat(items).hasSize(1)
-        assertThat(items[0].productId).isEqualTo(productId)
-        assertThat(items[0].quantity).isEqualTo(2)
+        Assertions.assertThat(items).hasSize(1)
+        Assertions.assertThat(items[0].productId).isEqualTo(productId)
+        Assertions.assertThat(items[0].quantity).isEqualTo(2)
     }
 
     @Test
@@ -75,8 +73,8 @@ class JdbcCartRepositoryTest {
 
         val item = cartRepository.findByMemberIdAndProductId(memberId, newProductId)
 
-        assertThat(item).isNotNull
-        assertThat(item!!.quantity).isEqualTo(3)
+        Assertions.assertThat(item).isNotNull
+        Assertions.assertThat(item!!.quantity).isEqualTo(3)
     }
 
     @Test
@@ -85,8 +83,8 @@ class JdbcCartRepositoryTest {
 
         val item = cartRepository.findByMemberIdAndProductId(memberId, productId)
 
-        assertThat(item).isNotNull
-        assertThat(item!!.quantity).isEqualTo(5)
+        Assertions.assertThat(item).isNotNull
+        Assertions.assertThat(item!!.quantity).isEqualTo(5)
     }
 
     @Test
@@ -94,14 +92,14 @@ class JdbcCartRepositoryTest {
         cartRepository.delete(memberId, productId)
 
         val item = cartRepository.findByMemberIdAndProductId(memberId, productId)
-        assertThat(item).isNull()
+        Assertions.assertThat(item).isNull()
     }
 
     @Test
     fun `findByMemberIdAndProductId should return correct item`() {
         val item = cartRepository.findByMemberIdAndProductId(memberId, productId)
 
-        assertThat(item).isNotNull
-        assertThat(item!!.quantity).isEqualTo(2)
+        Assertions.assertThat(item).isNotNull
+        Assertions.assertThat(item!!.quantity).isEqualTo(2)
     }
 }

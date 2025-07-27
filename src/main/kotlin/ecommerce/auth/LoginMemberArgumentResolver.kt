@@ -23,17 +23,17 @@ class LoginMemberArgumentResolver(
         parameter: MethodParameter,
         mavContainer: ModelAndViewContainer?,
         webRequest: NativeWebRequest,
-        binderFactory: WebDataBinderFactory?
+        binderFactory: WebDataBinderFactory?,
     ): Member {
-        val token = webRequest.getHeader("Authorization")?.removePrefix("Bearer ")
-            ?: throw AuthorizationException("Authorization header is missing")
+        val token =
+            webRequest.getHeader("Authorization")?.removePrefix("Bearer ")
+                ?: throw AuthorizationException("Authorization header is missing")
         if (!tokenProvider.validateToken(token)) throw AuthorizationException("Invalid token")
         val email = tokenProvider.getPayload(token)
         val member =
             memberRepository.findByEmail(email) ?: throw AuthorizationException(
-                "No authenticated member found"
+                "No authenticated member found",
             )
         return member
     }
 }
-

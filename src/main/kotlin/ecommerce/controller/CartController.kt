@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController
 class CartController(
     private val cartService: CartService,
 ) {
-
     @PostMapping
     fun addToCart(
         @Valid @RequestBody request: AddToCartRequest,
@@ -46,4 +45,3 @@ class CartController(
         return ResponseEntity.noContent().build()
     }
 }
-

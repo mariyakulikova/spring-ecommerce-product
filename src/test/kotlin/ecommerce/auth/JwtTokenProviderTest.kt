@@ -1,7 +1,6 @@
-package ecommerce
+package ecommerce.auth
 
-import ecommerce.auth.JwtTokenProvider
-import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -16,13 +15,13 @@ class JwtTokenProviderTest {
         val email = "test@email.com"
         val token = jwtTokenProvider.createToken(email)
 
-        assertThat(token).isNotEmpty()
-        assertThat(jwtTokenProvider.validateToken(token)).isTrue()
-        assertThat(jwtTokenProvider.getPayload(token)).isEqualTo(email)
+        Assertions.assertThat(token).isNotEmpty()
+        Assertions.assertThat(jwtTokenProvider.validateToken(token)).isTrue()
+        Assertions.assertThat(jwtTokenProvider.getPayload(token)).isEqualTo(email)
     }
 
     @Test
     fun `validates invalid token returns false`() {
-        assertThat(jwtTokenProvider.validateToken("invalid.token.here")).isFalse()
+        Assertions.assertThat(jwtTokenProvider.validateToken("invalid.token.here")).isFalse()
     }
 }

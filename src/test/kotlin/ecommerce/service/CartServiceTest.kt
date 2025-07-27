@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
 class CartServiceTest {
-
     private lateinit var cartRepository: CartRepository
     private lateinit var cartService: CartService
 
@@ -23,10 +22,11 @@ class CartServiceTest {
     @Test
     fun `getCart should return cart items for member`() {
         val memberId = 1L
-        val expectedCartItems = listOf(
-            CartItem(1L, 101L, 2),
-            CartItem(1L, 102L, 1)
-        )
+        val expectedCartItems =
+            listOf(
+                CartItem(1L, 101L, 2),
+                CartItem(1L, 102L, 1),
+            )
         every { cartRepository.findByMemberId(memberId) } returns expectedCartItems
 
         val result = cartService.getCart(memberId)

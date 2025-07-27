@@ -7,7 +7,6 @@ class AddToCartRequest(
     @field:NotNull
     @field:Positive
     val productId: Long,
-
     @field:NotNull
     @field:Positive
     val productCount: Int,

@@ -3,11 +3,11 @@ package ecommerce.auth
 import jakarta.servlet.http.HttpServletRequest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import org.mockito.Mockito.*
+import org.mockito.Mockito.mock
+import org.mockito.Mockito.`when`
 import java.util.*
 
 class BearerAuthorizationExtractorTest {
-
     private val extractor = BearerAuthorizationExtractor()
 
     @Test
@@ -54,4 +54,3 @@ class BearerAuthorizationExtractorTest {
         assertEquals("token1", token)
     }
 }
-

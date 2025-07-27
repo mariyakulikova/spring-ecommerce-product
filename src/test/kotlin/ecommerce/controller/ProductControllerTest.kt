@@ -1,11 +1,11 @@
-package ecommerce
+package ecommerce.controller
 
 import ecommerce.dto.Product
 import ecommerce.repository.JdbcProductRepository
 import ecommerce.repository.ProductRepository
 import io.restassured.RestAssured
 import io.restassured.http.ContentType
-import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -14,7 +14,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.jdbc.core.JdbcTemplate
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-class CRUDTest {
+class ProductControllerTest {
     private lateinit var jdbcProductStore: ProductRepository
 
     @Autowired
@@ -95,7 +95,7 @@ class CRUDTest {
                 .assertThat().statusCode(HttpStatus.OK.value())
                 .extract()
 
-        assertThat(response.jsonPath().getList("", Product::class.java)).hasSize(productsSize)
+        Assertions.assertThat(response.jsonPath().getList("", Product::class.java)).hasSize(productsSize)
     }
 
     @Test
