@@ -4,7 +4,7 @@ import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
 
-data class TokenRequest(
+class TokenRequest(
     @field:NotNull(message = "Email cannot be blank")
     @field:NotBlank(message = "Email can't be empty")
     @field:Email(message = "Email cannot be blank")

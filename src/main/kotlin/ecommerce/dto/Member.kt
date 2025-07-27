@@ -1,6 +1,6 @@
 package ecommerce.dto
 
-data class Member(
+class Member(
     val id: Long? = null,
     val email: String,
     val password: String,
