@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.RestController
 class AuthController(
     private val authService: AuthService,
 ) {
-//    private val authorizationExtractor: AuthorizationExtractor<String> = BearerAuthorizationExtractor()
-
     @PostMapping("/login")
     fun tokenLogin(
         @Valid @RequestBody tokenRequest: TokenRequest,

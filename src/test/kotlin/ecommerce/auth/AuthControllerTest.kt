@@ -1,4 +1,4 @@
-package ecommerce
+package ecommerce.auth
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean

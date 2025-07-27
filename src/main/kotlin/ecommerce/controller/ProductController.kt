@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController
 import java.net.URI
 
 @RestController
-@RequestMapping("api/products")
+@RequestMapping("/api/products")
 class ProductController(
     private val jdbcProductStore: ProductRepository,
     private val service: ProductService,
