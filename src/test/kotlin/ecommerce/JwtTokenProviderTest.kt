@@ -8,7 +8,6 @@ import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest(properties = ["spring.sql.init.mode=never"])
 class JwtTokenProviderTest {
-
     @Autowired
     private lateinit var jwtTokenProvider: JwtTokenProvider
 

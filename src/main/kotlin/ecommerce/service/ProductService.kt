@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class ProductService(
-    private val jdbc: ProductRepository
+    private val jdbc: ProductRepository,
 ) {
     fun validateUniqueName(product: Product) {
         when {
@@ -17,4 +17,3 @@ class ProductService(
         }
     }
 }
-

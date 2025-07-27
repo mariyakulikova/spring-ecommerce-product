@@ -1,22 +1,21 @@
 package ecommerce
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
+import ecommerce.controller.AuthController
 import ecommerce.dto.TokenRequest
 import ecommerce.dto.TokenResponse
 import ecommerce.service.AuthService
-import ecommerce.controller.AuthController
 import io.mockk.every
 import org.junit.jupiter.api.Test
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.web.servlet.post
-import com.fasterxml.jackson.databind.ObjectMapper
 
 @WebMvcTest(AuthController::class)
 class AuthControllerTest {
-
     @Autowired
     private lateinit var mockMvc: MockMvc
 
@@ -62,4 +61,3 @@ class AuthControllerTest {
         }
     }
 }
-

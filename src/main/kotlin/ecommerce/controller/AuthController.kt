@@ -1,7 +1,5 @@
 package ecommerce.controller
 
-import ecommerce.auth.AuthorizationExtractor
-import ecommerce.auth.BearerAuthorizationExtractor
 import ecommerce.dto.TokenRequest
 import ecommerce.dto.TokenResponse
 import ecommerce.service.AuthService

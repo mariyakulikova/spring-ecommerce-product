@@ -4,7 +4,7 @@ data class Member(
     val id: Long? = null,
     val email: String,
     val password: String,
-    val role: String = "USER"
+    val role: String = "USER",
 ) {
     init {
         require(email.isNotBlank()) { "Email cannot be blank" }

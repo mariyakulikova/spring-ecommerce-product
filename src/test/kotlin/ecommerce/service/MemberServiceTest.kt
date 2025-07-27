@@ -10,7 +10,6 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class MemberServiceTest {
-
     private lateinit var memberRepository: MemberRepository
     private lateinit var memberService: MemberService
 

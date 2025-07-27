@@ -21,9 +21,6 @@ repositories {
 
 dependencies {
     testImplementation("com.ninja-squad:springmockk:4.0.0") // or use Mockito
-
-
-
     implementation("org.springframework.boot:spring-boot-starter-jdbc")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-web")

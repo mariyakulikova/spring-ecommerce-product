@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class MemberService(
-    private val jdbc: MemberRepository
+    private val jdbc: MemberRepository,
 ) {
     fun validateUniqueName(member: Member) {
         when {

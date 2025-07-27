@@ -1,10 +1,10 @@
 package ecommerce.repository
 
 import ecommerce.dto.Product
+import ecommerce.exception.NotFoundException
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.jdbc.core.RowMapper
 import org.springframework.stereotype.Repository
-import ecommerce.exception.NotFoundException
 
 @Repository
 class JdbcProductRepository(private val jdbc: JdbcTemplate) : ProductRepository {
@@ -49,11 +49,12 @@ class JdbcProductRepository(private val jdbc: JdbcTemplate) : ProductRepository 
     }
 
     override fun existsByName(product: Product): Boolean {
-        val rows = jdbc.query(
-            "SELECT id FROM products WHERE name = ?",
-            { rs, _ -> rs.getLong("id") },
-            product.name,
-        )
+        val rows =
+            jdbc.query(
+                "SELECT id FROM products WHERE name = ?",
+                { rs, _ -> rs.getLong("id") },
+                product.name,
+            )
         return rows.isNotEmpty()
     }
 }

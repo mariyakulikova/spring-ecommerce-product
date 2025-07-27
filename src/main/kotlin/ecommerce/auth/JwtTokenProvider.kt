@@ -6,7 +6,7 @@ import io.jsonwebtoken.security.Keys
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import java.nio.charset.StandardCharsets
-import java.util.*
+import java.util.Date
 import javax.crypto.SecretKey
 
 @Component
@@ -31,20 +31,22 @@ class JwtTokenProvider(
     }
 
     fun getPayload(token: String): String {
-        val claims = Jwts.parser()
-            .verifyWith(secretKey)
-            .build()
-            .parseSignedClaims(token)
-            .payload
+        val claims =
+            Jwts.parser()
+                .verifyWith(secretKey)
+                .build()
+                .parseSignedClaims(token)
+                .payload
         return claims.subject
     }
 
     fun validateToken(token: String): Boolean {
         return try {
-            val claims = Jwts.parser()
-                .verifyWith(secretKey)
-                .build()
-                .parseSignedClaims(token)
+            val claims =
+                Jwts.parser()
+                    .verifyWith(secretKey)
+                    .build()
+                    .parseSignedClaims(token)
             !claims.payload.expiration.before(Date())
         } catch (e: JwtException) {
             false
