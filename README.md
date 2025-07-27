@@ -26,9 +26,9 @@
   - product image URL:
     - [x] must be start with `http://` or `https://`
 
-- [ ] auth
-  - [ ] register new member with email and password
-  - [ ] send token in response to register request
-  - [ ] login exist member with email and password
-  - [ ] send token in response to login request
+- [x] auth
+  - [x] register new member with email and password
+  - [x] send token in response to register request
+  - [x] login exist member with email and password
+  - [x] send token in response to login request
 
