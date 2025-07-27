@@ -31,8 +31,8 @@
   - [x] send token in response to register request
   - [x] login exist member with email and password
   - [x] send token in response to login request
-  - [ ] use `Authorization: Bearer <token>` in header
-  - [ ] get member information through `@LoginMember` + `HandlerMethodArgumentResolver`
+  - [x] use `Authorization: Bearer <token>` in header
+  - [x] get member information through `@LoginMember` + `HandlerMethodArgumentResolver`
 
 - [ ] cart:
   - [ ] retrieve product list in cart `GET /api/cart`
