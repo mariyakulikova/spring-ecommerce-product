@@ -21,6 +21,7 @@ class JdbcProductStoreTest {
     fun setUp() {
         jdbcProductStore = JdbcProductRepository(jdbcTemplate)
 
+        jdbcTemplate.execute("DROP TABLE IF EXISTS cart_items")
         jdbcTemplate.execute("DROP TABLE products IF EXISTS")
         jdbcTemplate.execute(
             "CREATE TABLE products(" +

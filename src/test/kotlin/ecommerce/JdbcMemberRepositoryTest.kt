@@ -22,6 +22,7 @@ class JdbcMemberRepositoryTest {
     fun setUp() {
         jdbcMemberRepository = JdbcMemberRepository(jdbcTemplate)
 
+        jdbcTemplate.execute("DROP TABLE IF EXISTS cart_items")
         jdbcTemplate.execute("DROP TABLE members IF EXISTS")
         jdbcTemplate.execute(
             """

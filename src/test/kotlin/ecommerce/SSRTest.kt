@@ -38,6 +38,7 @@ class SSRTest() {
 
     @BeforeEach
     fun setUp() {
+        jdbcTemplate.execute("DROP TABLE IF EXISTS cart_items")
         jdbcTemplate.execute("DROP TABLE products IF EXISTS")
         jdbcTemplate.execute(
             "CREATE TABLE products(" +
