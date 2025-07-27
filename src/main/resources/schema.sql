@@ -11,3 +11,13 @@ CREATE TABLE members (
                          password VARCHAR(255) NOT NULL,
                          role VARCHAR(50) DEFAULT 'USER'
 );
+
+CREATE TABLE cart_items (
+                            member_id   BIGINT NOT NULL,
+                            product_id  BIGINT NOT NULL,
+                            quantity    INT NOT NULL CHECK (quantity > 0),
+                            PRIMARY KEY (member_id, product_id),
+                            FOREIGN KEY (member_id) REFERENCES members(id),
+                            FOREIGN KEY (product_id) REFERENCES products(id)
+);
+
