@@ -7,6 +7,7 @@ import io.mockk.mockk
 import io.mockk.verify
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import java.time.LocalDateTime
 import kotlin.test.assertEquals
 
 class CartServiceTest {
@@ -22,10 +23,11 @@ class CartServiceTest {
     @Test
     fun `getCart should return cart items for member`() {
         val memberId = 1L
+        val now = LocalDateTime.now()
         val expectedCartItems =
             listOf(
-                CartItem(1L, 101L, 2),
-                CartItem(1L, 102L, 1),
+                CartItem(1L, 101L, 2, now),
+                CartItem(1L, 102L, 1, now),
             )
         every { cartRepository.findByMemberId(memberId) } returns expectedCartItems
 
@@ -67,8 +69,9 @@ class CartServiceTest {
         val existingQuantity = 2
         val additionalQuantity = 3
         val expectedTotalQuantity = existingQuantity + additionalQuantity
+        val now = LocalDateTime.now()
 
-        val existingCartItem = CartItem(memberId, productId, existingQuantity)
+        val existingCartItem = CartItem(memberId, productId, existingQuantity, now)
         every { cartRepository.findByMemberIdAndProductId(memberId, productId) } returns existingCartItem
         every { cartRepository.updateQuantity(memberId, productId, expectedTotalQuantity) } returns Unit
 
@@ -99,8 +102,9 @@ class CartServiceTest {
         val existingQuantity = 5
         val additionalQuantity = 0
         val expectedTotalQuantity = existingQuantity + additionalQuantity
+        val now = LocalDateTime.now()
 
-        val existingCartItem = CartItem(memberId, productId, existingQuantity)
+        val existingCartItem = CartItem(memberId, productId, existingQuantity, now)
         every { cartRepository.findByMemberIdAndProductId(memberId, productId) } returns existingCartItem
         every { cartRepository.updateQuantity(memberId, productId, expectedTotalQuantity) } returns Unit
 

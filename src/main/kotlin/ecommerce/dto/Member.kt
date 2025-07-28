@@ -2,10 +2,13 @@ package ecommerce.dto
 
 class Member(
     val id: Long? = null,
+    name: String? = null,
     val email: String,
     val password: String,
     val role: String = "USER",
 ) {
+    val name: String = name ?: email
+
     init {
         require(email.isNotBlank()) { "Email cannot be blank" }
         require(password.isNotBlank()) { "Password cannot be blank" }

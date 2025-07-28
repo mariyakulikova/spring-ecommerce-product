@@ -11,6 +11,7 @@ class JdbcMemberRepository(private val jdbcTemplate: JdbcTemplate) : MemberRepos
         RowMapper<Member> { rs, _ ->
             Member(
                 id = rs.getLong("id"),
+                name = rs.getString("name"),
                 email = rs.getString("email"),
                 password = rs.getString("password"),
                 role = rs.getString("role"),
@@ -18,8 +19,11 @@ class JdbcMemberRepository(private val jdbcTemplate: JdbcTemplate) : MemberRepos
         }
 
     override fun create(member: Member): Long? {
+        val nameToInsert = member.name.ifBlank { member.email }
+
         jdbcTemplate.update(
-            "INSERT INTO members (email, password, role) VALUES (?, ?, ?)",
+            "INSERT INTO members (name, email, password, role) VALUES (?, ?, ?)",
+            nameToInsert,
             member.email,
             member.password,
             member.role,

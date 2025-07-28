@@ -4,6 +4,8 @@ import ecommerce.dto.CartItem
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.jdbc.core.RowMapper
 import org.springframework.stereotype.Repository
+import java.sql.Timestamp
+import java.time.LocalDateTime
 
 @Repository
 class JdbcCartRepository(
@@ -15,6 +17,7 @@ class JdbcCartRepository(
                 memberId = rs.getLong("member_id"),
                 productId = rs.getLong("product_id"),
                 quantity = rs.getInt("quantity"),
+                addedAt = rs.getTimestamp("added_at").toLocalDateTime(),
             )
         }
 
@@ -37,8 +40,14 @@ class JdbcCartRepository(
         productId: Long,
         quantity: Int,
     ) {
-        val sql = "INSERT INTO cart_items (member_id, product_id, quantity) VALUES (?, ?, ?)"
-        jdbcTemplate.update(sql, memberId, productId, quantity)
+        val sql =
+            """
+            MERGE INTO cart_items (member_id, product_id, quantity, added_at)
+            KEY (member_id, product_id)
+            VALUES (?, ?, ?, ?)
+            """.trimIndent()
+        val now = LocalDateTime.now()
+        jdbcTemplate.update(sql, memberId, productId, quantity, Timestamp.valueOf(now))
     }
 
     override fun updateQuantity(
