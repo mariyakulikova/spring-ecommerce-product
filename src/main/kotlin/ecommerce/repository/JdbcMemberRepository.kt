@@ -22,7 +22,7 @@ class JdbcMemberRepository(private val jdbcTemplate: JdbcTemplate) : MemberRepos
         val nameToInsert = member.name.ifBlank { member.email }
 
         jdbcTemplate.update(
-            "INSERT INTO members (name, email, password, role) VALUES (?, ?, ?)",
+            "INSERT INTO members (name, email, password, role) VALUES (?, ?, ?, ?)",
             nameToInsert,
             member.email,
             member.password,
