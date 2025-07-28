@@ -13,7 +13,6 @@ import java.net.URI
 import kotlin.test.assertEquals
 
 class ProductControllerTest {
-
     private val repository: ProductRepository = mock(ProductRepository::class.java)
     private val service: ProductService = mock(ProductService::class.java)
     private val controller = ProductController(repository, service)
@@ -34,10 +33,11 @@ class ProductControllerTest {
 
     @Test
     fun `should return all products`() {
-        val products = listOf(
-            Product(id = 1, name = "Apple", price = 1.0, imageUrl = "url"),
-            Product(id = 2, name = "Banana", price = 2.0, imageUrl = "url")
-        )
+        val products =
+            listOf(
+                Product(id = 1, name = "Apple", price = 1.0, imageUrl = "url"),
+                Product(id = 2, name = "Banana", price = 2.0, imageUrl = "url"),
+            )
         `when`(repository.getAll()).thenReturn(products)
 
         val response = controller.readProducts()
