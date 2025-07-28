@@ -34,8 +34,13 @@
   - [x] use `Authorization: Bearer <token>` in header
   - [x] get member information through `@LoginMember` + `HandlerMethodArgumentResolver`
 
-- [ ] cart:
-  - [ ] retrieve product list in cart `GET /api/cart`
-  - [ ] add product to cart `POST /api/cart`
-  - [ ] remove product from cart `DELETE /api/cart/product{id}`
+- [x] cart:
+  - [x] retrieve product list in cart `GET /api/cart`
+  - [x] add product to cart `POST /api/cart`
+  - [x] remove product from cart `DELETE /api/cart/product{id}`
+
+- [ ] statistic:
+  - [ ] top 5 most added product
+  - [ ] top active members in the past 7 days
+  - [ ] access to statistic only for users with role `ADMIN`
 
