@@ -12,17 +12,17 @@ class JdbcCartStatRepository(
     override fun findTop5MostAddedProductsInLast30Days(): List<TopProductStat> {
         val sql =
             """
-            SELECT 
-        ci.product_id,
-        p.name AS product_name,
-        COUNT(*) AS added_count,
-        MAX(ci.added_at) AS last_added_at
-    FROM cart_items ci
-    JOIN products p ON ci.product_id = p.id
-    WHERE ci.added_at >= DATEADD('DAY', -30, CURRENT_TIMESTAMP)
-    GROUP BY ci.product_id, p.name
-    ORDER BY added_count DESC, last_added_at DESC
-    LIMIT 5
+                    SELECT 
+                ci.product_id,
+                p.name AS product_name,
+                COUNT(*) AS added_count,
+                MAX(ci.added_at) AS last_added_at
+            FROM cart_items ci
+            JOIN products p ON ci.product_id = p.id
+            WHERE ci.added_at >= DATEADD('DAY', -30, CURRENT_TIMESTAMP)
+            GROUP BY ci.product_id, p.name
+            ORDER BY added_count DESC, last_added_at DESC
+            LIMIT 5
 
             """.trimIndent()
 
