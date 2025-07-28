@@ -1,4 +1,4 @@
-package ecommerce.auth
+package ecommerce.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
@@ -31,7 +31,11 @@ class AuthControllerTest {
         val request = TokenRequest("user@email.com", "1234")
         val expectedResponse = TokenResponse("mocked-token")
 
-        every { authService.login(request) } returns expectedResponse
+        every {
+            authService.login(match {
+                it.email == "user@email.com" && it.password == "1234"
+            })
+        } returns expectedResponse
 
         mockMvc.post("/api/members/login") {
             contentType = MediaType.APPLICATION_JSON
@@ -49,7 +53,11 @@ class AuthControllerTest {
         val request = TokenRequest("user@email.com", "1234")
         val expectedResponse = TokenResponse("registered-token")
 
-        every { authService.register(request) } returns expectedResponse
+        every {
+            authService.register(match {
+                it.email == "user@email.com" && it.password == "1234"
+            })
+        } returns expectedResponse
 
         mockMvc.post("/api/members/register") {
             contentType = MediaType.APPLICATION_JSON
