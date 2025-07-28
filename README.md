@@ -39,8 +39,8 @@
   - [x] add product to cart `POST /api/cart`
   - [x] remove product from cart `DELETE /api/cart/product{id}`
 
-- [ ] statistic:
-  - [ ] top 5 most added product
-  - [ ] top active members in the past 7 days
-  - [ ] access to statistic only for users with role `ADMIN`
+- [x] statistic:
+  - [x] top 5 most added product
+  - [x] top active members in the past 7 days
+  - [x] access to statistic only for users with role `ADMIN`
 
