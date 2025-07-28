@@ -20,7 +20,7 @@ class JdbcProductRepositoryTest {
         jdbcProductStore = JdbcProductRepository(jdbcTemplate)
 
         jdbcTemplate.execute("DROP TABLE IF EXISTS cart_items")
-        jdbcTemplate.execute("DROP TABLE products IF EXISTS")
+        jdbcTemplate.execute("DROP TABLE IF EXISTS products")
         jdbcTemplate.execute(
             "CREATE TABLE products(" +
                 "id BIGINT AUTO_INCREMENT, name VARCHAR(255) NOT NULL, price DOUBLE NOT NULL, image_url VARCHAR(512) NOT NULL)",
