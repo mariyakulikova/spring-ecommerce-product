@@ -1,171 +1,66 @@
 package ecommerce.controller
 
 import ecommerce.dto.Product
-import ecommerce.repository.JdbcProductRepository
 import ecommerce.repository.ProductRepository
-import io.restassured.RestAssured
-import io.restassured.http.ContentType
-import org.assertj.core.api.Assertions
-import org.junit.jupiter.api.BeforeEach
+import ecommerce.service.ProductService
 import org.junit.jupiter.api.Test
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
+import org.mockito.Mockito.mock
+import org.mockito.Mockito.verify
+import org.mockito.Mockito.`when`
 import org.springframework.http.HttpStatus
-import org.springframework.jdbc.core.JdbcTemplate
+import org.springframework.http.ResponseEntity
+import java.net.URI
+import kotlin.test.assertEquals
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 class ProductControllerTest {
-    private lateinit var jdbcProductStore: ProductRepository
 
-    @Autowired
-    private lateinit var jdbcTemplate: JdbcTemplate
-    private var productsSize = 0
+    private val repository: ProductRepository = mock(ProductRepository::class.java)
+    private val service: ProductService = mock(ProductService::class.java)
+    private val controller = ProductController(repository, service)
 
-    @BeforeEach
-    fun setUp() {
-        jdbcProductStore = JdbcProductRepository(jdbcTemplate)
+    @Test
+    fun `should create product and return 201 with Location header`() {
+        val product = Product(name = "Apple", price = 1.0, imageUrl = "url")
+        `when`(repository.create(product)).thenReturn(42L)
 
-        jdbcTemplate.execute("DROP TABLE IF EXISTS cart_items")
-        jdbcTemplate.execute("DROP TABLE products IF EXISTS")
-        jdbcTemplate.execute(
-            "CREATE TABLE products(" +
-                "id BIGINT AUTO_INCREMENT, name VARCHAR(255) NOT NULL, price DOUBLE NOT NULL, image_url VARCHAR(512) NOT NULL)",
+        val response: ResponseEntity<Unit> = controller.createProduct(product)
+
+        verify(service).validateUniqueName(product)
+        verify(repository).create(product)
+
+        assertEquals(HttpStatus.CREATED, response.statusCode)
+        assertEquals(URI.create("/api/products/42"), response.headers.location)
+    }
+
+    @Test
+    fun `should return all products`() {
+        val products = listOf(
+            Product(id = 1, name = "Apple", price = 1.0, imageUrl = "url"),
+            Product(id = 2, name = "Banana", price = 2.0, imageUrl = "url")
         )
+        `when`(repository.getAll()).thenReturn(products)
 
-        val products =
-            listOf(
-                Product(
-                    id = 1L,
-                    name = "vanilla",
-                    price = 1.99,
-                    imageUrl = "https://laurenslatest.com/wp-content/uploads/2020/08/vanilla-ice-cream-5-copy-360x361.jpg",
-                ),
-                Product(
-                    id = 2L,
-                    name = "pistachio",
-                    price = 2.49,
-                    imageUrl = "https://greenhealthycooking.com/wp-content/uploads/2017/06/Pistachio-Ice-Cream-Photo.jpg",
-                ),
-                Product(
-                    id = 3L,
-                    name = "chocolate",
-                    price = 1.49,
-                    imageUrl = "https://www.cravethegood.com/wp-content/uploads/2021/04/sous-vide-chocolate-ice-cream-15.jpg",
-                ),
-            )
+        val response = controller.readProducts()
 
-        productsSize = products.size
-
-        jdbcTemplate.batchUpdate(
-            "INSERT INTO products(name, price, image_url) VALUES (?, ?, ?)",
-            products,
-            products.size,
-        ) { ps, product ->
-            ps.setString(1, product.name)
-            ps.setDouble(2, product.price)
-            ps.setString(3, product.imageUrl)
-        }
+        assertEquals(HttpStatus.OK, response.statusCode)
+        assertEquals(products, response.body)
     }
 
     @Test
-    fun create() {
-        RestAssured
-            .given().log().all()
-            .body(
-                Product(
-                    name = "Orange",
-                    price = 2.80,
-                    imageUrl = "https://image.jpg",
-                ),
-            )
-            .contentType(ContentType.JSON)
-            .`when`().post("/api/products")
-            .then().log().all()
-            .assertThat().statusCode(HttpStatus.CREATED.value())
+    fun `should update a product and return 200`() {
+        val product = Product(name = "NewName", price = 3.0, imageUrl = "img")
+
+        val response = controller.updateProduct(product, id = 5)
+
+        verify(repository).update(5, product)
+        assertEquals(HttpStatus.OK, response.statusCode)
     }
 
     @Test
-    fun read() {
-        val response =
-            RestAssured
-                .given().log().all()
-                .contentType(ContentType.JSON)
-                .`when`().get("/api/products")
-                .then().log().all()
-                .assertThat().statusCode(HttpStatus.OK.value())
-                .extract()
+    fun `should delete a product and return 204`() {
+        val response = controller.deleteProduct(id = 7)
 
-        Assertions.assertThat(response.jsonPath().getList("", Product::class.java)).hasSize(productsSize)
-    }
-
-    @Test
-    fun update_success() {
-        RestAssured
-            .given().log().all()
-            .body(
-                Product(
-                    name = "lemon",
-                    price = 3.60,
-                    imageUrl =
-                        "https://www.carnation.co.uk/sites/default/files/2020" +
-                            "-05/Final%20Lemon%20Curd%20Ice%20Cream%20mobile.jpg",
-                ),
-            )
-            .contentType(ContentType.JSON)
-            .`when`().put("/api/products/1")
-            .then().log().all()
-            .assertThat().statusCode(HttpStatus.OK.value())
-    }
-
-    @Test
-    fun update_failure() {
-        RestAssured
-            .given().log().all()
-            .body(
-                Product(
-                    name = "vvv",
-                    price = 3.60,
-                    imageUrl = "https://laurenslatest.com/wp-content/uploads/2020/08/vanilla-ice-cream-5-copy-360x361.jpg",
-                ),
-            )
-            .contentType(ContentType.JSON)
-            .`when`().put("/api/products/4")
-            .then().log().all()
-            .assertThat().statusCode(HttpStatus.NOT_FOUND.value())
-    }
-
-    @Test
-    fun delete_success() {
-        RestAssured
-            .given().log().all()
-            .`when`().delete("/api/products/1")
-            .then().log().all()
-            .assertThat().statusCode(HttpStatus.NO_CONTENT.value())
-    }
-
-    @Test
-    fun delete_failure() {
-        RestAssured
-            .given().log().all()
-            .`when`().delete("/api/products/4")
-            .then().log().all()
-            .assertThat().statusCode(HttpStatus.NOT_FOUND.value())
-    }
-
-    @Test
-    fun create_failure() {
-        RestAssured
-            .given().log().all()
-            .body(
-                Product(
-                    name = "",
-                    price = 2.80,
-                    imageUrl = "https://image.png",
-                ),
-            )
-            .contentType(ContentType.JSON)
-            .`when`().post("/api/products")
-            .then().log().all()
-            .assertThat().statusCode(HttpStatus.BAD_REQUEST.value())
+        verify(repository).delete(7)
+        assertEquals(HttpStatus.NO_CONTENT, response.statusCode)
     }
 }
