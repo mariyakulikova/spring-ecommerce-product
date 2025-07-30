@@ -24,9 +24,9 @@ class AuthService(
     fun login(tokenRequest: TokenRequest): TokenResponse {
         val member =
             jdbcMemberRepository.findByEmail(tokenRequest.email)
-                ?: throw AuthorizationException("Member not found")
+                ?: throw AuthorizationException()
         if (member.password != tokenRequest.password) {
-            throw AuthorizationException("Invalid password")
+            throw AuthorizationException()
         }
         val accessToken = jwtTokenProvider.createToken(member.email)
         return TokenResponse(accessToken)

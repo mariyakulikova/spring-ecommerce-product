@@ -26,7 +26,7 @@ class AdminOnlyInterceptor(
 
         val token =
             request.getHeader("Authorization")?.removePrefix("Bearer ")
-                ?: throw AuthorizationException("Authorization header is missing")
+                ?: throw AuthorizationException()
 
         if (!tokenProvider.validateToken(token)) {
             return unauthorized(response, "Invalid token")
@@ -35,7 +35,7 @@ class AdminOnlyInterceptor(
         val email = tokenProvider.getPayload(token)
         val member =
             memberRepository.findByEmail(email)
-                ?: throw AuthorizationException("Member not found")
+                ?: throw AuthorizationException()
 
         if (member.role != "ADMIN") {
             response.status = HttpServletResponse.SC_FORBIDDEN

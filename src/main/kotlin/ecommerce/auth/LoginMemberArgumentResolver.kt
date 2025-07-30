@@ -27,13 +27,11 @@ class LoginMemberArgumentResolver(
     ): Member {
         val token =
             webRequest.getHeader("Authorization")?.removePrefix("Bearer ")
-                ?: throw AuthorizationException("Authorization header is missing")
-        if (!tokenProvider.validateToken(token)) throw AuthorizationException("Invalid token")
+                ?: throw AuthorizationException()
+        if (!tokenProvider.validateToken(token)) throw AuthorizationException()
         val email = tokenProvider.getPayload(token)
         val member =
-            memberRepository.findByEmail(email) ?: throw AuthorizationException(
-                "No authenticated member found",
-            )
+            memberRepository.findByEmail(email) ?: throw AuthorizationException()
         return member
     }
 }
