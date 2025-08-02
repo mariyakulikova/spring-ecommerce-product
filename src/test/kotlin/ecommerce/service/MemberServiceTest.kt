@@ -1,41 +1,73 @@
 package ecommerce.service
 
-import ecommerce.model.Member
 import ecommerce.exception.DuplicateMemberEmailException
+import ecommerce.model.Member
 import ecommerce.repository.MemberRepository
 import io.mockk.every
 import io.mockk.mockk
-import org.junit.jupiter.api.Assertions.assertThrows
+import io.mockk.verify
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class MemberServiceTest {
-    private lateinit var memberRepository: MemberRepository
-    private lateinit var memberService: MemberService
+
+    private lateinit var repository: MemberRepository
+    private lateinit var service: MemberService
 
     @BeforeEach
     fun setUp() {
-        memberRepository = mockk()
-        memberService = MemberService(memberRepository)
+        repository = mockk()
+        service = MemberService(repository)
     }
 
     @Test
-    fun `should throw exception when email already exists`() {
-        val member = Member(email = "test@email.com", password = "1234")
+    fun `should throw DuplicateMemberEmailException if email exists`() {
+        val member = Member(email = "test@example.com", password = "pass")
+        every { repository.existsByEmail(member.email) } returns true
 
-        every { memberRepository.existsByEmail(member.email) } returns true
-
-        assertThrows(DuplicateMemberEmailException::class.java) {
-            memberService.validateUniqueName(member)
+        assertThrows<DuplicateMemberEmailException> {
+            service.validateUniqueName(member)
         }
     }
 
     @Test
-    fun `should not throw when email is unique`() {
-        val member = Member(email = "unique@email.com", password = "1234")
+    fun `should pass silently if email is unique`() {
+        val member = Member(email = "unique@example.com", password = "pass")
+        every { repository.existsByEmail(member.email) } returns false
 
-        every { memberRepository.existsByEmail(member.email) } returns false
+        service.validateUniqueName(member)
+    }
 
-        memberService.validateUniqueName(member)
+    @Test
+    fun `should return member by email`() {
+        val member = Member(email = "m@email.com", password = "1234")
+        every { repository.findByEmail("m@email.com") } returns member
+
+        val result = service.findByEmail("m@email.com")
+
+        assertEquals(member, result)
+    }
+
+    @Test
+    fun `should return true if email exists`() {
+        every { repository.existsByEmail("admin@a.com") } returns true
+
+        val result = service.existsByEmail("admin@a.com")
+
+        assertTrue(result)
+    }
+
+    @Test
+    fun `should call repository to create member`() {
+        val member = Member(email = "new@a.com", password = "pw")
+        every { repository.create(member) } returns 42L
+
+        val id = service.create(member)
+
+        assertEquals(42L, id)
+        verify { repository.create(member) }
     }
 }

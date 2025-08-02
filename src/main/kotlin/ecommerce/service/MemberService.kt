@@ -16,4 +16,16 @@ class MemberService(
             )
         }
     }
+
+    fun findByEmail(email: String): Member? {
+        return jdbc.findByEmail(email)
+    }
+
+    fun existsByEmail(email: String): Boolean {
+        return jdbc.existsByEmail(email)
+    }
+
+    fun create(member: Member): Long? {
+        return jdbc.create(member)
+    }
 }

@@ -2,7 +2,7 @@ package ecommerce.auth
 
 import ecommerce.model.Member
 import ecommerce.exception.AuthorizationException
-import ecommerce.repository.MemberRepository
+import ecommerce.service.MemberService
 import org.springframework.core.MethodParameter
 import org.springframework.stereotype.Component
 import org.springframework.web.bind.support.WebDataBinderFactory
@@ -13,7 +13,7 @@ import org.springframework.web.method.support.ModelAndViewContainer
 @Component
 class LoginMemberArgumentResolver(
     private val tokenProvider: JwtTokenProvider,
-    private val memberRepository: MemberRepository,
+    private val memberService: MemberService,
 ) : HandlerMethodArgumentResolver {
     override fun supportsParameter(parameter: MethodParameter): Boolean {
         return parameter.hasParameterAnnotation(LoginMember::class.java)
@@ -31,7 +31,7 @@ class LoginMemberArgumentResolver(
         if (!tokenProvider.validateToken(token)) throw AuthorizationException()
         val email = tokenProvider.getPayload(token)
         val member =
-            memberRepository.findByEmail(email) ?: throw AuthorizationException()
+            memberService.findByEmail(email) ?: throw AuthorizationException()
         return member
     }
 }

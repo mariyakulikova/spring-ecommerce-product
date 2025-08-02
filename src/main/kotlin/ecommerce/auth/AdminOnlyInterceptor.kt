@@ -1,7 +1,7 @@
 package ecommerce.auth
 
 import ecommerce.exception.AuthorizationException
-import ecommerce.repository.MemberRepository
+import ecommerce.service.MemberService
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.stereotype.Component
@@ -11,7 +11,7 @@ import org.springframework.web.servlet.HandlerInterceptor
 @Component
 class AdminOnlyInterceptor(
     private val tokenProvider: JwtTokenProvider,
-    private val memberRepository: MemberRepository,
+    private val memberService: MemberService,
 ) : HandlerInterceptor {
     override fun preHandle(
         request: HttpServletRequest,
@@ -34,7 +34,7 @@ class AdminOnlyInterceptor(
 
         val email = tokenProvider.getPayload(token)
         val member =
-            memberRepository.findByEmail(email)
+            memberService.findByEmail(email)
                 ?: throw AuthorizationException()
 
         if (member.role != "ADMIN") {
