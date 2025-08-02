@@ -10,7 +10,7 @@ class ProductTest {
             Product(
                 "a".repeat(16),
                 1.2,
-                "http://example.jpg"
+                "http://example.jpg",
             )
         }
     }
@@ -21,7 +21,7 @@ class ProductTest {
             Product(
                 "#a",
                 1.2,
-                "http://example.jpg"
+                "http://example.jpg",
             )
         }
     }
@@ -32,7 +32,7 @@ class ProductTest {
             Product(
                 "",
                 1.2,
-                "http://example.jpg"
+                "http://example.jpg",
             )
         }
     }
@@ -43,7 +43,7 @@ class ProductTest {
             Product(
                 "a",
                 0.0,
-                "http://example.jpg"
+                "http://example.jpg",
             )
         }
     }
@@ -54,7 +54,7 @@ class ProductTest {
             Product(
                 "a",
                 3.0,
-                "example.jpg"
+                "example.jpg",
             )
         }
     }

@@ -13,7 +13,6 @@ import java.net.URI
 import kotlin.test.assertEquals
 
 class ProductControllerTest {
-
     private val service: ProductService = mock(ProductService::class.java)
     private val controller = ProductController(service)
 

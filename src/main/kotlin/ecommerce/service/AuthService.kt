@@ -1,10 +1,10 @@
 package ecommerce.service
 
 import ecommerce.auth.JwtTokenProvider
-import ecommerce.model.Member
 import ecommerce.dto.TokenRequest
 import ecommerce.dto.TokenResponse
 import ecommerce.exception.AuthorizationException
+import ecommerce.model.Member
 import org.springframework.stereotype.Service
 
 @Service

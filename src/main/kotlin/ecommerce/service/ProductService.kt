@@ -1,9 +1,9 @@
 package ecommerce.service
 
 import ecommerce.dto.ProductRequest
-import ecommerce.model.Product
 import ecommerce.exception.DuplicateProductNameException
 import ecommerce.exception.NotFoundException
+import ecommerce.model.Product
 import ecommerce.repository.ProductRepository
 import org.springframework.stereotype.Service
 
@@ -28,7 +28,10 @@ class ProductService(
         return jdbc.getAll()
     }
 
-    fun update(id: Long, request: ProductRequest) {
+    fun update(
+        id: Long,
+        request: ProductRequest,
+    ) {
         val product = Product.toEntity(request)
         if (!jdbc.update(id, product)) throw NotFoundException("Product with id $id not found")
     }

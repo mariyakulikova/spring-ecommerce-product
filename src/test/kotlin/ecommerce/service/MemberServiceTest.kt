@@ -14,7 +14,6 @@ import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class MemberServiceTest {
-
     private lateinit var repository: MemberRepository
     private lateinit var service: MemberService
 

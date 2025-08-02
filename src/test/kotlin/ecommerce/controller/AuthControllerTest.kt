@@ -5,9 +5,9 @@ import com.ninjasquad.springmockk.MockkBean
 import ecommerce.auth.AdminOnlyInterceptor
 import ecommerce.auth.LoginMemberArgumentResolver
 import ecommerce.config.WebConfig
-import ecommerce.model.Member
 import ecommerce.dto.TokenRequest
 import ecommerce.dto.TokenResponse
+import ecommerce.model.Member
 import ecommerce.service.AuthService
 import io.mockk.every
 import org.junit.jupiter.api.Test

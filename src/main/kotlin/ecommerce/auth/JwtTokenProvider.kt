@@ -1,6 +1,5 @@
 package ecommerce.auth
 
-import io.jsonwebtoken.JwtException
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys
 import org.springframework.beans.factory.annotation.Value
@@ -42,10 +41,11 @@ class JwtTokenProvider(
 
     fun validateToken(token: String): Boolean {
         return runCatching {
-            val claims = Jwts.parser()
-                .verifyWith(secretKey)
-                .build()
-                .parseSignedClaims(token)
+            val claims =
+                Jwts.parser()
+                    .verifyWith(secretKey)
+                    .build()
+                    .parseSignedClaims(token)
             !claims.payload.expiration.before(Date())
         }.getOrDefault(false)
     }

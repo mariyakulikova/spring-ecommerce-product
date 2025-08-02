@@ -66,10 +66,11 @@ class ProductServiceTest {
 
     @Test
     fun `should return all products`() {
-        val products = listOf(
-            Product(name = "A", price = 1.0, imageUrl = "https://img.com/a.jpg", id = 1),
-            Product(name = "B", price = 2.0, imageUrl = "https://img.com/b.jpg", id = 2)
-        )
+        val products =
+            listOf(
+                Product(name = "A", price = 1.0, imageUrl = "https://img.com/a.jpg", id = 1),
+                Product(name = "B", price = 2.0, imageUrl = "https://img.com/b.jpg", id = 2),
+            )
         every { repository.getAll() } returns products
 
         val result = service.getAll()
