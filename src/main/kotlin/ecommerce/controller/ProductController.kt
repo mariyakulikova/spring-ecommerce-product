@@ -1,6 +1,6 @@
 package ecommerce.controller
 
-import ecommerce.dto.Product
+import ecommerce.model.Product
 import ecommerce.repository.ProductRepository
 import ecommerce.service.ProductService
 import jakarta.validation.Valid

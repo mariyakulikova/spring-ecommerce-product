@@ -2,8 +2,8 @@ package ecommerce.controller
 
 import ecommerce.auth.LoginMember
 import ecommerce.dto.AddToCartRequest
-import ecommerce.dto.CartItem
-import ecommerce.dto.Member
+import ecommerce.model.CartItem
+import ecommerce.model.Member
 import ecommerce.service.CartService
 import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity

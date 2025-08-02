@@ -1,6 +1,6 @@
 package ecommerce.service
 
-import ecommerce.dto.CartItem
+import ecommerce.model.CartItem
 import ecommerce.repository.CartRepository
 import org.springframework.stereotype.Service
 

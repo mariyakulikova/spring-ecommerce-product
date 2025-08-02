@@ -1,4 +1,4 @@
-package ecommerce.dto
+package ecommerce.model
 
 class Member(
     val id: Long? = null,

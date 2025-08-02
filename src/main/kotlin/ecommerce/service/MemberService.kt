@@ -1,6 +1,6 @@
 package ecommerce.service
 
-import ecommerce.dto.Member
+import ecommerce.model.Member
 import ecommerce.exception.DuplicateMemberEmailException
 import ecommerce.repository.MemberRepository
 import org.springframework.stereotype.Service

@@ -1,6 +1,6 @@
 package ecommerce.repository
 
-import ecommerce.dto.CartItem
+import ecommerce.model.CartItem
 
 interface CartRepository {
     fun findByMemberId(memberId: Long?): List<CartItem>

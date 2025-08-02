@@ -1,6 +1,6 @@
 package ecommerce.repository
 
-import ecommerce.dto.Member
+import ecommerce.model.Member
 
 interface MemberRepository {
     fun create(member: Member): Long?

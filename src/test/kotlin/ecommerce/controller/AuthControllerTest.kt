@@ -5,7 +5,7 @@ import com.ninjasquad.springmockk.MockkBean
 import ecommerce.auth.AdminOnlyInterceptor
 import ecommerce.auth.LoginMemberArgumentResolver
 import ecommerce.config.WebConfig
-import ecommerce.dto.Member
+import ecommerce.model.Member
 import ecommerce.dto.TokenRequest
 import ecommerce.dto.TokenResponse
 import ecommerce.service.AuthService

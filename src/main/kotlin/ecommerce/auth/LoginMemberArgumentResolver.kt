@@ -1,6 +1,6 @@
 package ecommerce.auth
 
-import ecommerce.dto.Member
+import ecommerce.model.Member
 import ecommerce.exception.AuthorizationException
 import ecommerce.repository.MemberRepository
 import org.springframework.core.MethodParameter

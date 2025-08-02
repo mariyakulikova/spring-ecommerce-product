@@ -1,6 +1,6 @@
 package ecommerce.service
 
-import ecommerce.dto.Product
+import ecommerce.model.Product
 import ecommerce.exception.DuplicateProductNameException
 import ecommerce.repository.ProductRepository
 import io.mockk.every

@@ -1,6 +1,6 @@
 package ecommerce.repository
 
-import ecommerce.dto.Product
+import ecommerce.model.Product
 import ecommerce.exception.NotFoundException
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.jdbc.core.RowMapper

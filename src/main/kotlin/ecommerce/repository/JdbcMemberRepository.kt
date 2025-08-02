@@ -1,6 +1,6 @@
 package ecommerce.repository
 
-import ecommerce.dto.Member
+import ecommerce.model.Member
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.jdbc.core.RowMapper
 import org.springframework.stereotype.Repository

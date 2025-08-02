@@ -1,7 +1,7 @@
 package ecommerce.service
 
 import ecommerce.auth.JwtTokenProvider
-import ecommerce.dto.Member
+import ecommerce.model.Member
 import ecommerce.dto.TokenRequest
 import ecommerce.dto.TokenResponse
 import ecommerce.exception.AuthorizationException

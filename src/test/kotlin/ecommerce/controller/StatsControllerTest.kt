@@ -5,7 +5,7 @@ import ecommerce.auth.AdminOnlyInterceptor
 import ecommerce.auth.LoginMemberArgumentResolver
 import ecommerce.config.WebConfig
 import ecommerce.dto.ActiveMemberStat
-import ecommerce.dto.Member
+import ecommerce.model.Member
 import ecommerce.dto.TopProductStat
 import ecommerce.repository.CartStatRepository
 import io.mockk.every
