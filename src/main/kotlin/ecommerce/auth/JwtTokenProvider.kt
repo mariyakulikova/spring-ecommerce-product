@@ -41,17 +41,12 @@ class JwtTokenProvider(
     }
 
     fun validateToken(token: String): Boolean {
-        return try {
-            val claims =
-                Jwts.parser()
-                    .verifyWith(secretKey)
-                    .build()
-                    .parseSignedClaims(token)
+        return runCatching {
+            val claims = Jwts.parser()
+                .verifyWith(secretKey)
+                .build()
+                .parseSignedClaims(token)
             !claims.payload.expiration.before(Date())
-        } catch (e: JwtException) {
-            false
-        } catch (e: IllegalArgumentException) {
-            false
-        }
+        }.getOrDefault(false)
     }
 }
