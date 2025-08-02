@@ -6,6 +6,7 @@ import ecommerce.repository.MemberRepository
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
+import org.assertj.core.api.Assertions.assertThatCode
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -38,7 +39,9 @@ class MemberServiceTest {
         val member = Member(email = "unique@example.com", password = "pass")
         every { repository.existsByEmail(member.email) } returns false
 
-        service.validateUniqueName(member)
+        assertThatCode {
+            service.validateUniqueName(member)
+        }.doesNotThrowAnyException()
     }
 
     @Test

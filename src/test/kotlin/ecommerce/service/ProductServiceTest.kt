@@ -8,6 +8,7 @@ import ecommerce.repository.ProductRepository
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
+import org.assertj.core.api.Assertions.assertThatCode
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -38,7 +39,9 @@ class ProductServiceTest {
         val request = ProductRequest(name = "Unique", price = 10.0, imageUrl = "https://image.jpg")
         every { repository.existsByName(any()) } returns false
 
-        service.validateUniqueName(request)
+        assertThatCode {
+            service.validateUniqueName(request)
+        }.doesNotThrowAnyException()
     }
 
     @Test
