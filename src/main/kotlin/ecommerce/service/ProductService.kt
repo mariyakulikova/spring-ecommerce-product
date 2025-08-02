@@ -1,7 +1,9 @@
 package ecommerce.service
 
+import ecommerce.dto.ProductRequest
 import ecommerce.model.Product
 import ecommerce.exception.DuplicateProductNameException
+import ecommerce.exception.NotFoundException
 import ecommerce.repository.ProductRepository
 import org.springframework.stereotype.Service
 
@@ -9,11 +11,29 @@ import org.springframework.stereotype.Service
 class ProductService(
     private val jdbc: ProductRepository,
 ) {
-    fun validateUniqueName(product: Product) {
+    fun validateUniqueName(request: ProductRequest) {
+        val product = Product.toEntity(request)
         when {
             jdbc.existsByName(product) -> throw DuplicateProductNameException(
                 "Product name '${product.name}' already exists.",
             )
         }
+    }
+
+    fun create(request: ProductRequest): Long {
+        return jdbc.create(Product.toEntity(request)) ?: throw RuntimeException()
+    }
+
+    fun getAll(): List<Product> {
+        return jdbc.getAll()
+    }
+
+    fun update(id: Long, request: ProductRequest) {
+        val product = Product.toEntity(request)
+        if (!jdbc.update(id, product)) throw NotFoundException("Product with id $id not found")
+    }
+
+    fun delete(id: Long) {
+        if (!jdbc.delete(id)) throw NotFoundException("Product with id $id not found")
     }
 }

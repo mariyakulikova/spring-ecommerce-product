@@ -1,11 +1,11 @@
 package ecommerce.model
 
 class Member(
-    val id: Long? = null,
-    name: String? = null,
     val email: String,
     val password: String,
     val role: String = "USER",
+    name: String? = null,
+    val id: Long? = null,
 ) {
     val name: String = name ?: email
 

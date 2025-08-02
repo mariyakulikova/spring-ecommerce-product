@@ -1,7 +1,7 @@
 package ecommerce.controller
 
+import ecommerce.dto.ProductRequest
 import ecommerce.model.Product
-import ecommerce.repository.ProductRepository
 import ecommerce.service.ProductService
 import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
@@ -18,30 +18,29 @@ import java.net.URI
 @RestController
 @RequestMapping("/api/products")
 class ProductController(
-    private val jdbcProductStore: ProductRepository,
     private val service: ProductService,
 ) {
     @PostMapping
     fun createProduct(
-        @Valid @RequestBody product: Product,
+        @Valid @RequestBody product: ProductRequest,
     ): ResponseEntity<Unit> {
         service.validateUniqueName(product)
-        val id = jdbcProductStore.create(product)
+        val id = service.create(product)
         return ResponseEntity.created(URI.create("/api/products/$id")).build()
     }
 
     @GetMapping
     fun readProducts(): ResponseEntity<List<Product>> {
-        val products = jdbcProductStore.getAll()
+        val products = service.getAll()
         return ResponseEntity.ok(products)
     }
 
     @PutMapping("/{id}")
     fun updateProduct(
-        @Valid @RequestBody newProduct: Product,
+        @Valid @RequestBody newProduct: ProductRequest,
         @PathVariable id: Long,
     ): ResponseEntity<Unit> {
-        jdbcProductStore.update(id, newProduct)
+        service.update(id, newProduct)
         return ResponseEntity.ok().build()
     }
 
@@ -49,7 +48,7 @@ class ProductController(
     fun deleteProduct(
         @PathVariable id: Long,
     ): ResponseEntity<Unit> {
-        jdbcProductStore.delete(id)
+        service.delete(id)
         return ResponseEntity.noContent().build()
     }
 }

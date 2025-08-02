@@ -1,22 +1,30 @@
 package ecommerce.model
 
-import ecommerce.utiles.Constants
-import jakarta.validation.constraints.NotBlank
-import jakarta.validation.constraints.Pattern
-import jakarta.validation.constraints.Positive
-import jakarta.validation.constraints.Size
+import ecommerce.dto.ProductRequest
 
 class Product(
+    val name: String,
+    val price: Double,
+    val imageUrl: String,
     var id: Long? = null,
-    @field:NotBlank(message = Constants.ERR_NAME_NOT_BLANK)
-    @field:Pattern(
-        regexp = """^[\w\s()\[\]+\-&/_]*$""",
-        message = Constants.ERR_NAME_REGEX,
-    )
-    @field:Size(max = 15, message = Constants.ERR_NAME_SIZE)
-    var name: String,
-    @field:Positive(message = Constants.ERR_PRICE_POSITIVE)
-    var price: Double,
-    @field:Pattern(regexp = """^(http://|https://).+""", message = Constants.ERR_URL_REGEX)
-    var imageUrl: String,
-)
+) {
+    init {
+        require(name.isNotBlank())
+        require(Regex("""^[\w\s()\[\]+\-&/_]*$""").matches(name))
+        require(name.length < 15)
+        require(price > 0)
+        require(Regex("""^(http://|https://).+""").matches(imageUrl))
+    }
+
+    companion object {
+        fun toEntity(product: ProductRequest): Product {
+            return Product(
+                product.name,
+                product.price,
+                product.imageUrl,
+                product.id,
+            )
+        }
+    }
+}
+

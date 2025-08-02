@@ -1,6 +1,5 @@
-package ecommerce.dto
+package ecommerce.model
 
-import ecommerce.model.Member
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows

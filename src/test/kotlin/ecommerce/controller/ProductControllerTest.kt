@@ -1,7 +1,7 @@
 package ecommerce.controller
 
+import ecommerce.dto.ProductRequest
 import ecommerce.model.Product
-import ecommerce.repository.ProductRepository
 import ecommerce.service.ProductService
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.mock
@@ -13,20 +13,19 @@ import java.net.URI
 import kotlin.test.assertEquals
 
 class ProductControllerTest {
-    private val repository: ProductRepository = mock(ProductRepository::class.java)
+
     private val service: ProductService = mock(ProductService::class.java)
-    private val controller = ProductController(repository, service)
+    private val controller = ProductController(service)
 
     @Test
     fun `should create product and return 201 with Location header`() {
-        val product = Product(name = "Apple", price = 1.0, imageUrl = "url")
-        `when`(repository.create(product)).thenReturn(42L)
+        val request = ProductRequest(name = "Apple", price = 1.0, imageUrl = "https://example.com/image.jpg")
+        `when`(service.create(request)).thenReturn(42L)
 
-        val response: ResponseEntity<Unit> = controller.createProduct(product)
+        val response: ResponseEntity<Unit> = controller.createProduct(request)
 
-        verify(service).validateUniqueName(product)
-        verify(repository).create(product)
-
+        verify(service).validateUniqueName(request)
+        verify(service).create(request)
         assertEquals(HttpStatus.CREATED, response.statusCode)
         assertEquals(URI.create("/api/products/42"), response.headers.location)
     }
@@ -35,32 +34,33 @@ class ProductControllerTest {
     fun `should return all products`() {
         val products =
             listOf(
-                Product(id = 1, name = "Apple", price = 1.0, imageUrl = "url"),
-                Product(id = 2, name = "Banana", price = 2.0, imageUrl = "url"),
+                Product(id = 1, name = "Apple", price = 1.0, imageUrl = "https://img.com/a.jpg"),
+                Product(id = 2, name = "Banana", price = 2.0, imageUrl = "https://img.com/b.jpg"),
             )
-        `when`(repository.getAll()).thenReturn(products)
+        `when`(service.getAll()).thenReturn(products)
 
         val response = controller.readProducts()
 
+        verify(service).getAll()
         assertEquals(HttpStatus.OK, response.statusCode)
         assertEquals(products, response.body)
     }
 
     @Test
     fun `should update a product and return 200`() {
-        val product = Product(name = "NewName", price = 3.0, imageUrl = "img")
+        val request = ProductRequest(name = "Updated", price = 2.5, imageUrl = "https://img.com/updated.jpg")
 
-        val response = controller.updateProduct(product, id = 5)
+        val response = controller.updateProduct(request, id = 5L)
 
-        verify(repository).update(5, product)
+        verify(service).update(5L, request)
         assertEquals(HttpStatus.OK, response.statusCode)
     }
 
     @Test
     fun `should delete a product and return 204`() {
-        val response = controller.deleteProduct(id = 7)
+        val response = controller.deleteProduct(id = 7L)
 
-        verify(repository).delete(7)
+        verify(service).delete(7L)
         assertEquals(HttpStatus.NO_CONTENT, response.statusCode)
     }
 }

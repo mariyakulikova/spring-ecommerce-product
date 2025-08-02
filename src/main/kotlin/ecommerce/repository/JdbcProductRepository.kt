@@ -22,30 +22,28 @@ class JdbcProductRepository(private val jdbc: JdbcTemplate) : ProductRepository 
         return jdbc.query("SELECT * FROM products", rowMapper)
     }
 
-    override fun create(product: Product): Long {
+    override fun create(product: Product): Long? {
         jdbc.update(
             "INSERT INTO products (name, price, image_url) VALUES (?, ?, ?)",
             product.name,
             product.price,
             product.imageUrl,
         )
-        return jdbc.queryForObject("SELECT MAX(id) FROM products", Long::class.java)!!
+        return jdbc.queryForObject("SELECT MAX(id) FROM products", Long::class.java)
     }
 
     override fun update(
         id: Long,
         product: Product,
-    ) {
-        jdbc.update(
+    ): Boolean {
+        return jdbc.update(
             "UPDATE products SET name = ?, price = ?, image_url = ? WHERE id = ?",
             product.name, product.price, product.imageUrl, id,
-        ).takeIf { it > 0 } ?: throw NotFoundException("Product with id $id not found")
+        ) > 0
     }
 
-    override fun delete(id: Long) {
-        jdbc.update("DELETE FROM products WHERE id = ?", id)
-            .takeIf { it > 0 }
-            ?: throw NotFoundException("Product with id $id not found")
+    override fun delete(id: Long): Boolean {
+        return jdbc.update("DELETE FROM products WHERE id = ?", id) > 0
     }
 
     override fun existsByName(product: Product): Boolean {
